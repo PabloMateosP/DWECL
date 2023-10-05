@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tarea 1. Tema 5 </title>
+
+    <script>
+
+        function funcionMENU() {
+            var numeros = [];
+            var salir = false;
+
+            while (salir == false) {
+
+                var numero = prompt("Introduzca una serie de números" + ".\nEscriba x para finalizar.");
+
+                if (numero == "x"){
+                    salir = true;
+                }
+
+                Number(numero);
+
+                for (var ind = 0; ind <= numeros; ind++) {
+                    numeros.push(numero);
+                    console.log(numeros);
+                }
+
+            }
+        }
+
+    </script>
 </head>
+
 <body>
-    
+
+    <body onload="javascript:funcionMENU()" ;></body>
+
 </body>
+
 </html>
