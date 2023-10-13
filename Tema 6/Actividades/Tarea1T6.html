@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea 1. Tema 5 </title>
+
+    <script>
+
+        function funcionDatos() {
+            var numeros = [];
+            var salir = false;
+
+            while (salir == false) {
+
+                var numero = prompt("Introduzca una serie de números" + ".\nPara dejar de introducir valores pulse x. \nPara salir del programa pulse o");
+                if (numero == null) return;
+
+                if (numero == "x") {
+                    salir = true;
+                    Media(numeros);
+                }
+
+                if (numero == "o") {
+                    salir = true;
+                }
+
+                if (salir == false) {
+                    Number(numero);
+                    numeros.push(numero);
+                }
+
+            }
+
+        }
+
+        //------------------------------------------------------------------------------------------------
+
+        function Media(numeros) {
+            var mediaNumeros = 0;
+
+            for (var index = 0; index < numeros.length; index++) {
+                mediaNumeros = mediaNumeros + Number(numeros[index]);
+            }
+
+            mediaNumeros = mediaNumeros / Number(numeros.length);
+            alert("La media de los números introducidos es:  " + mediaNumeros);
+
+            Rango(numeros);
+        }
+
+        //------------------------------------------------------------------------------------------------
+
+        function Rango(numeros) {
+
+            //Hay que poner Number ya que sino nos coge los valores como referencia no por valor
+            var numMin = Number(numeros[0]);
+            var numMax = Number(numeros[0]);
+            var valorRango;
+
+            for (var ind = 0; ind < numeros.length; ind++) {
+                if (numMin > Number(numeros[ind])) {
+                    numMin = Number(numeros[ind]);
+                }
+                if (numMax < Number(numeros[ind])) {
+                    numMax = Number(numeros[ind]);
+                }
+            }
+
+            valorRango = numMax - numMin;
+            alert("El rango de los números introducidos es: " + valorRango);
+
+            Moda(numeros);
+        }
+
+        //-------------------------------------------------------------------------------------------------
+
+        function Moda(numeros) {
+            //Array donde guardaremos las ocurrencias de cada número 
+            var conteo = [];
+
+            for (var i = 0; i < numeros.length; i++) {
+                var numero = numeros[i];
+                conteo[numero] = (conteo[numero] || 0) + 1;
+                //Sacamos el valor que tiene el número que toca y si este no está inicializado en el arrya conteo
+                //le damos el valor 0, pero sí este tiene 
+            }
+
+            var moda = [];
+            var maxFrecuencia = 0;
+            
+
+            for (var ind = 0; ind < conteo.length; ind++) {
+                if (conteo[ind] > maxFrecuencia) {
+                    //Comparamos cada valor con la maxima frecuencia para actualizar moda en el caso de que sea mayor que la maxFrecuencia
+                    moda[ind] = ind;
+                    maxFrecuencia = conteo[ind];
+                }
+            }
+
+            alert("La moda de los números introducidos es: " + moda);
+            
+            Mediana(numeros);
+        }
+
+        //---------------------------------------------------------------------------------------------------
+
+        function Mediana(numeros){
+            /* Si el número de valores es impar la mediana es el número del medio
+            Si es par, la mediana se calcula con la media de los dos números intermedios. */
+            
+            numeros.sort(function (a,b){return a-b})
+            var longitudArray = numeros.length;
+            
+            if (longitudArray % 2 == 0){
+                var posicionMedio = longitudArray / 2 ;
+
+                var mediana1 = posicionMedio - 1;
+                var mediana2 = posicionMedio;
+
+                var mediana = (mediana1 + mediana2) / 2;
+                alert("La mediana es: " + mediana)
+
+            } else {
+                var mitad = (longitudArray / 2) - (1/2);
+
+                alert("La mediana es: " + mitad);
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <body onload="javascript:funcionDatos()" ;></body>
+
+</body>
+
+</html>
