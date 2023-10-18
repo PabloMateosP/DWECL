@@ -116,14 +116,14 @@
             if (longitudArray % 2 == 0){
                 var posicionMedio = longitudArray / 2 ;
 
-                var mediana1 = posicionMedio - 1;
-                var mediana2 = posicionMedio;
+                var mediana1 = Number(numeros[posicionMedio - 1]);
+                var mediana2 = Number(numeros[posicionMedio]);
 
-                var mediana = (mediana1 + mediana2) / 2;
+                var mediana = Number((mediana1 + mediana2)) / 2;
                 alert("La mediana es: " + mediana)
 
             } else {
-                var mitad = (longitudArray / 2) - (1/2);
+                var mitad = Number((longitudArray / 2)) - (1/2);
 
                 alert("La mediana es: " + mitad);
             }
