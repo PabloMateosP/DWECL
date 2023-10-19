@@ -39,14 +39,67 @@
         // alert("Array de números impares: " + impares);
 
         var matriz = [];
+        var numeros = [];
 
         var salir = false;
 
         while (salir == false) {
-            var numero = prompt("Introduzca una serie de números" + ".\nPara dejar de introducir valores pulse x. \nPara salir del programa pulse o");
+
+            var numero = prompt("Introduzca una serie de números." +
+                ".\nPara dejar de introducir valores pulse x." +
+                "\nPara salir del programa pulse o." +
+                "\nPulsa l para saltar de línea.");
+
             if (numero == null) return;
 
+            if (numero == "o") {
+                salir = true;
+            }
+            if (numero == "x") {
+                salir = true;
+                matriz.push(numeros);
+                paresImpares(matriz);
+            }
+
+            var i = 0;
+
+            if (numero == "l") {
+
+                matriz.push(numeros);
+
+                numeros = [];
+
+            }
+
+            if (salir == false && numero != "l") {
+
+                numeros.push(Number(numero));
+
+            }
+
         }
+    }
+
+    function paresImpares(matriz){
+        var pares = [];
+        var impares = [];
+
+        for (var ind = 0; ind < matriz.length; ind ++){
+            for (var ind2 = 0; ind2 < matriz[ind].length; ind2 ++){
+
+                if(matriz[ind][ind2] % 2 == 0){
+
+                    pares.push(matriz[ind][ind2]);
+
+                } else {
+
+                    impares.push(matriz[ind][ind2]);
+                }
+
+            }
+
+        }
+        alert ("Números pares: " + pares +"\nNúmeros impares: " + impares);
 
     }
 

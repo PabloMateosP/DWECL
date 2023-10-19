@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAREA 1.A - TEMA 6</title>
+</head>
+
+<script>
+
+    function separarNumeros() {
+
+        var matriz = [];
+        var numeros = [];
+
+        var salir = false;
+
+        while (salir == false) {
+
+            var numero = prompt("Introduzca una serie de números" + ".\nPara dejar de introducir valores pulse x. \nPara salir del programa pulse o \nPara pasar de linea pulse l: ");
+            
+            if (numero == null) return;
+
+            if (numero == "x") {
+                salir = true;
+                separarParesImpares(matriz);
+            }
+
+            if (numero == "o") {
+                salir = true;
+            }
+
+            if (numero == "l"){
+
+                matriz.push(numeros);
+
+                numeros = [];
+
+            }
+
+            if (salir == false && numero == "l") {
+                Number(numero)
+                numeros.push(numero);
+            }
+
+        }
+
+    }
+
+    function separarParesImpares(matriz) {
+
+        var pares = [];
+        var impares = [];
+
+        for (var i = 0; i < array.length; i++) {
+            for (var j = 0; j < array[i].length; j++) {
+
+                
+                if (array[i][j] % 2 == 0) {
+                    pares.push(array[i][j]);
+                }
+                
+                else {
+                    impares.push(array[i][j]);
+                }
+            }
+        }
+        alert("Números pares:" + pares + "\nNumeros impares:" + impares);
+    }
+
+</script>
+
+<body>
+
+    <body onload="javascript:separarNumeros()" ;></body>
+
+</body>
+
+</html>
