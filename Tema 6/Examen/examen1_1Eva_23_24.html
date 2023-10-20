@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Tema 6 - Pablo Mateos Palas</title>
+
+    <script>
+
+
+        function entradaDeDatos() {
+
+            // Matriz donde se guardarán los consumos por dependencias
+            var matriz = [];
+
+            // Array que guardará los consumos de cada toma introducida
+            var vector = [];
+
+            var depencias = 0;
+
+            var cerrar = false;
+
+            while (cerrar == false) {
+
+                var numero = prompt("Introduzca los consumos de cada toma. " + "(Dependencia: " + depencias + ")" +
+                    ".\n(Para dejar de introducir datos pulse 'x'.)" +
+                    "\n(Pulse 'd' para cambiar de dependencia.)");
+
+                if (numero == null) return;
+
+                if (numero == "x") {
+                    cerrar = true;
+                    matriz.push(vector);
+                    maximaPotencia(matriz);
+                }
+
+                if (numero == "d") {
+
+                    matriz.push(vector);
+
+                    vector = [];
+
+                    // Variable contador para las dependencias introducidas
+                    depencias++;
+
+                }
+
+                if (cerrar == false && numero != "d") {
+
+                    vector.push(Number(numero));
+
+                }
+
+            }
+
+        }
+
+        function maximaPotencia(matriz) {
+            var maximaPotencia = [];
+
+            for (var ind = 0; ind < matriz.length; ind++) {
+                for (var ind2 = 0; ind2 < matriz.length; ind2++) {
+
+                    if (maximaPotencia < matriz[ind][ind2]) {
+
+                        maximaPotencia[ind] = matriz[ind][ind2];
+
+                    }
+
+                }
+
+                alert("El consumo máximo de la dependencia: " + ind + " = " + maximaPotencia[ind]);
+                
+                maximaPotencia = [];
+            }
+
+            //alert("La potencia máxima es: " + maximaPotencia);
+            mayorDos(matriz);
+        }
+
+        function mayorDos(matriz) {
+            var mayoresDos = [];
+            var depenciasSuperan = [];
+
+            for (var ind = 0; ind < matriz.length; ind++) {
+                for (var ind2 = 0; ind2 < matriz[ind].length; ind2++) {
+
+                    if (matriz[ind][ind2] > 2) {
+
+                        mayoresDos = [matriz[ind][ind2]];
+                        depenciasSuperan[ind] = ind;
+
+                    }
+
+                }
+
+            }
+
+            depenciasSuperan.toString();
+
+            alert("En las dependencias: " + depenciasSuperan + " hay conectores que superan los 2KW.");
+
+        }
+
+    </script>
+
+
+
+</head>
+
+<body>
+
+    <body onload="javascript:entradaDeDatos()" ;></body>
+</body>
+
+</html>
