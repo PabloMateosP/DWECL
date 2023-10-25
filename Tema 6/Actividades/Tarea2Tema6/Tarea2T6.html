@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+
+        function menu() {
+
+            var datos = [];
+
+            var numeros = [];
+
+            var salir = false;
+
+            while (salir == false) {
+
+                var datos = Number(prompt("1. Ver cesta \n2. Insertar un artículo \n3. Borrar un artículo \n4. Vaciar cesta \n5. Salir"));
+
+                if (datos == null) return;
+
+                switch (datos) {
+                    case 1:
+                        console.log("Ver cesta elegida");
+                        verCesta();
+                        break;
+                    case 2:
+                        console.log("Añadir producto a la cesta");
+                        añadirProducto(datos);
+                        break;
+                    case 3:
+                        console.log("Eliminar producto de la cesta");
+                        eliminarProducto(datos);
+                        break;
+                    case 4:
+                        console.log("Vaciar cesta");
+                        vaciarCesta();
+                        break;
+                    case 5:
+                        console.log("Salir del menú");
+                        salir = true;
+                        break;
+                }
+
+            }
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <body onload="javascript:menu()" ;></body>
+
+</body>
+
+
+
+</html>
