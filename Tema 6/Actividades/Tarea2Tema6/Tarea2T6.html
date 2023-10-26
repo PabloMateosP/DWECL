@@ -20,7 +20,7 @@
 
                 if (datos == null) return;
 
-                switch (datos){
+                switch (datos) {
                     case '1':
                         console.log("Ver cesta elegida");
                         verCesta(datosProductos);
@@ -51,25 +51,21 @@
 
         function verCesta(datosProductos) {
 
-            var total = [];
+            var linea = '';
+            for (var i = 0; i < datosProductos.length; i++) {
+                var producto = datosProductos[i];
 
-            var informacionProducto = [];
-
-            for (var ind = 0; ind < datosProductos.length; ind++) {
-                for (var ind2 = 0; ind2 < datosProductos[ind].length; ind2++) {
-
-                    console.log(datosProductos[ind][ind2]);
-                    informacionProducto[ind] = datosProductos[ind][ind2] + ' ' ;
-
+                for (var j = 0; j < producto.length; j++) {
+                    linea += producto[j] + '  ';
                 }
-                total[ind] = informacionProducto;  
+                console.log(linea);
             }
-            alert("Cod  Nombre  Precio  Cantidad  Subtotal\n " + total);
+            alert("Cod  Nombre  Precio  Cantidad  Subtotal\n " + linea);
         }
 
-        function añadirProducto(datosProductos){
+        function añadirProducto(datosProductos) {
 
-            var datoCod = datosProductos.length + 1;
+            var datoCod = Number(datosProductos.length) + 1;
 
             var datoNombre = prompt('Introduzca el nombre del producto:');
 
@@ -77,7 +73,7 @@
 
             var datoCantidad = Number(prompt('Introduzca cantidad del producto'));
 
-            var subTotal= datoPrecio * datoCantidad;
+            var subTotal = Number(datoPrecio * datoCantidad);
 
             datosProductos.push(datoCod, datoNombre, datoPrecio, datoCantidad, subTotal);
             console.log(datosProductos);
