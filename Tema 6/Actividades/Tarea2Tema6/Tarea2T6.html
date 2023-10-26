@@ -10,43 +10,79 @@
 
         function menu() {
 
-            var datos = [];
-
-            var numeros = [];
-
             var salir = false;
+
+            var datosProductos = [];
 
             while (salir == false) {
 
-                var datos = Number(prompt("1. Ver cesta \n2. Insertar un artículo \n3. Borrar un artículo \n4. Vaciar cesta \n5. Salir"));
+                var datos = (prompt("1. Ver cesta \n2. Insertar un artículo \n3. Borrar un artículo \n4. Vaciar cesta \n5. Salir"));
 
                 if (datos == null) return;
 
-                switch (datos) {
-                    case 1:
+                switch (datos){
+                    case '1':
                         console.log("Ver cesta elegida");
-                        verCesta();
+                        verCesta(datosProductos);
                         break;
-                    case 2:
+                    case '2':
                         console.log("Añadir producto a la cesta");
-                        añadirProducto(datos);
+                        añadirProducto(datosProductos);
                         break;
-                    case 3:
+                    case '3':
                         console.log("Eliminar producto de la cesta");
-                        eliminarProducto(datos);
+                        eliminarProducto(datosProductos);
                         break;
-                    case 4:
+                    case '4':
                         console.log("Vaciar cesta");
-                        vaciarCesta();
+                        vaciarCesta(datosProductos);
                         break;
-                    case 5:
+                    case '5':
                         console.log("Salir del menú");
                         salir = true;
                         break;
+                    default:
+                        alert("Elija una opción del 1 - 5");
                 }
 
             }
 
+        }
+
+        function verCesta(datosProductos) {
+
+            var total = [];
+
+            var informacionProducto = [];
+
+            for (var ind = 0; ind < datosProductos.length; ind++) {
+                for (var ind2 = 0; ind2 < datosProductos[ind].length; ind2++) {
+
+                    console.log(datosProductos[ind][ind2]);
+                    informacionProducto[ind] = datosProductos[ind][ind2] + ' ' ;
+
+                }
+                total[ind] = informacionProducto;  
+            }
+            alert("Cod  Nombre  Precio  Cantidad  Subtotal\n " + total);
+        }
+
+        function añadirProducto(datosProductos){
+
+            var datoCod = datosProductos.length + 1;
+
+            var datoNombre = prompt('Introduzca el nombre del producto:');
+
+            var datoPrecio = Number(prompt('Introduzca precio del producto'));
+
+            var datoCantidad = Number(prompt('Introduzca cantidad del producto'));
+
+            var subTotal= datoPrecio * datoCantidad;
+
+            datosProductos.push(datoCod, datoNombre, datoPrecio, datoCantidad, subTotal);
+            console.log(datosProductos);
+
+            return datosProductos;
         }
 
     </script>
