@@ -51,19 +51,31 @@
 
         function verCesta(datosProductos) {
 
-            var linea = '';
-            for (var i = 0; i < datosProductos.length; i++) {
-                var producto = datosProductos[i];
+            var mensaje = "Cod    Nombre    Precio    Cantidad    Subtotal\n"
+            var total = 0;
 
-                for (var j = 0; j < producto.length; j++) {
-                    linea += producto[j] + '  ';
+            for (var i = 0; i < datosProductos.length; i++) {
+                for (var i2 = 0; i2 < datosProductos[i].length; i2++) {
+                    if (datosProductos[i][0] == 0) {
+
+                    } else {
+
+                        mensaje += [datosProductos[i][i2] + "          "];
+
+                    }
+
                 }
-                console.log(linea);
+
+                total += datosProductos[i][4];
+                mensaje += "\n";
             }
-            alert("Cod  Nombre  Precio  Cantidad  Subtotal\n " + linea);
+            alert(mensaje + '\n                     TOTAL: ' + total); 
+
         }
 
         function añadirProducto(datosProductos) {
+
+            var articulo = [];
 
             var datoCod = Number(datosProductos.length) + 1;
 
@@ -75,9 +87,34 @@
 
             var subTotal = Number(datoPrecio * datoCantidad);
 
-            datosProductos.push(datoCod, datoNombre, datoPrecio, datoCantidad, subTotal);
-            console.log(datosProductos);
+            articulo.push(datoCod, datoNombre, datoPrecio, datoCantidad, subTotal);
 
+            añadirCesta(articulo, datosProductos);
+        }
+
+        function añadirCesta(articulo, datosProductos) {
+            datosProductos.push(articulo);
+            return datosProductos;
+        }
+
+        function eliminarProducto(datosProductos) {
+            var codProducto = prompt("Introduzca el código del producto a eliminar:");
+
+            for (var i = 0; i < datosProductos.length; i++) {
+                if (datosProductos[i][0] == codProducto) {
+                    
+                    //Dejamos el id a 0
+                    datosProductos[i][0] = 0;
+
+                    //Dejamos el subtotal a 0
+                    datosProductos[i][4] = 0;
+
+                } 
+            }
+        }
+
+        function vaciarCesta(datosProductos) {
+            datosProductos.length = 0;
             return datosProductos;
         }
 
