@@ -51,7 +51,7 @@
 
         function verCesta(datosProductos) {
 
-            var mensaje = "Cod    Nombre    Precio    Cantidad    Subtotal\n"
+            var mensaje = "Cod   |   Nombre   |   Precio   |   Cantidad   |   Subtotal\n------------------------------------------------------------- \n"
             var total = 0;
 
             for (var i = 0; i < datosProductos.length; i++) {
@@ -60,16 +60,16 @@
 
                     } else {
 
-                        mensaje += [datosProductos[i][i2] + "          "];
+                        mensaje += [datosProductos[i][i2] + "                 "];
 
                     }
 
                 }
 
                 total += datosProductos[i][4];
-                mensaje += "\n";
+                mensaje += "\n------------------------------------------------------------- \n";
             }
-            alert(mensaje + '\n                     TOTAL: ' + total); 
+            alert(mensaje + '\n            TOTAL: ' + total); 
 
         }
 
