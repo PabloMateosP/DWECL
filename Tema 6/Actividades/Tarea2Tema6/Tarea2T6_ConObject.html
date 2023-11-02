@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+
+        function menu() {
+
+            var salir = false;
+
+            var datosProductos = [];
+
+            var articulo = {};
+
+            while (salir == false) {
+
+                var datos = (prompt("1. Ver cesta \n2. Insertar un artículo \n3. Borrar un artículo \n4. Vaciar cesta \n5. Salir"));
+
+                if (datos == null) return;
+
+                switch (datos) {
+                    case '1':
+                        console.log("Ver cesta elegida");
+                        verCesta(datosProductos, articulo);
+                        break;
+                    case '2':
+                        console.log("Añadir producto a la cesta");
+                        añadirProducto(datosProductos, articulo);
+                        break;
+                    case '3':
+                        console.log("Eliminar producto de la cesta");
+                        eliminarProducto(datosProductos, articulo);
+                        break;
+                    case '4':
+                        console.log("Vaciar cesta");
+                        vaciarCesta(datosProductos);
+                        break;
+                    case '5':
+                        console.log("Salir del menú");
+                        salir = true;
+                        break;
+                    default:
+                        alert("Elija una opción del 1 - 5");
+                }
+
+            }
+
+        }
+
+        function verCesta(datosProductos, articulo) {
+
+            var mensaje = "Cod   |      Nombre     |     Precio     |     Cantidad     |     Subtotal\n---------------------------------------------------------------------------- \n"
+            var total = 0;
+            var subTotal = 0;
+
+            for (var i = 0; i < datosProductos.length; i++) {
+
+                if (datosProductos[i].datoCod == 0) {
+
+                } else {
+
+                    mensaje += [datosProductos[i].datoCod + "                   "];
+                    mensaje += [datosProductos[i].datoNombre + "                   "];
+                    mensaje += [datosProductos[i].datoPrecio + "                   "];
+                    mensaje += [datosProductos[i].datoCantidad + "                   "];
+                    subTotal =  Number(datosProductos[i].datoPrecio * datosProductos[i].datoCantidad);
+                    mensaje += [subTotal + "                   "];
+
+                }
+
+                total = Number(total + subTotal);
+                mensaje += "\n---------------------------------------------------------------------------- \n";
+            }
+            alert(mensaje + '\n                         TOTAL: ' + total);
+
+        }
+
+        function añadirProducto(datosProductos, articulo) {
+
+            articulo = {
+                datoCod: Number(datosProductos.length) + 1,
+
+                datoNombre: prompt('Introduzca el nombre del producto:'),
+
+                datoPrecio: Number(prompt('Introduzca precio del producto')),
+
+                datoCantidad: Number(prompt('Introduzca cantidad del producto')),
+
+            }
+
+            añadirCesta(articulo, datosProductos);
+        }
+
+        function añadirCesta(articulo, datosProductos) {
+            datosProductos.push(articulo);
+            return datosProductos;
+        }
+
+        function eliminarProducto(datosProductos) {
+            var codProductoIntroducido = Number(prompt("Introduzca el código del producto a eliminar:"));
+
+            for (var i = 0; i < datosProductos.length; i++) {
+                if (datosProductos[i].datoCod == codProductoIntroducido) {
+
+                    //Dejamos el id a 0
+                    datosProductos[i].datoCod = 0;
+
+                    //Dejamos su precio a 0
+                    datosProductos[i].datoPrecio = 0;
+
+                    //Dejamos su cantidad a 0
+                    datosProductos[i].datoCantidad = 0;
+
+                }
+            }
+
+            return datosProductos;
+        }
+
+        function vaciarCesta(datosProductos) {
+            datosProductos.length = 0;
+            return datosProductos;
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <body onload="javascript:menu()" ;></body>
+
+</body>
+
+
+
+</html>
