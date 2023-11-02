@@ -51,25 +51,25 @@
 
         function verCesta(datosProductos) {
 
-            var mensaje = "Cod   |   Nombre   |   Precio   |   Cantidad   |   Subtotal\n------------------------------------------------------------- \n"
+            var mensaje = "Cod   |      Nombre     |     Precio     |     Cantidad     |     Subtotal\n------------------------------------------------------------------------------ \n"
             var total = 0;
 
             for (var i = 0; i < datosProductos.length; i++) {
                 for (var i2 = 0; i2 < datosProductos[i].length; i2++) {
-                    if (datosProductos[i][0] == 0) {
+                    if (datosProductos[i][0] === 0) {
 
                     } else {
 
-                        mensaje += [datosProductos[i][i2] + "                 "];
+                        mensaje += [datosProductos[i][i2] + "                   "];
 
                     }
 
                 }
 
                 total += datosProductos[i][4];
-                mensaje += "\n------------------------------------------------------------- \n";
+                mensaje += "\n------------------------------------------------------------------------------ \n";
             }
-            alert(mensaje + '\n            TOTAL: ' + total); 
+            alert(mensaje + '\n                         TOTAL: ' + total); 
 
         }
 
@@ -111,6 +111,7 @@
 
                 } 
             }
+            return datosProductos;
         }
 
         function vaciarCesta(datosProductos) {
