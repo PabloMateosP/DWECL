@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        function todo() {
+
+
+
+            class Empleado {
+                #edad;
+
+                constructor(nombre, apellido, edad) {
+                    this.nombre = nombre;
+                    this.apellido = apellido;
+
+                    // edad como variable privada, al estar dentro del constructor también se puede crear así _edad
+                    this.#edad = edad;
+
+                    this.muestra = function () {
+                        alert(`Nombre: ${this.nombre} ${this.apellido}\nEdad: ${edad}`);
+                    };
+                }
+                
+            }
+
+            class Profesor extends Empleado {
+                constructor(nombre, apellido, edad, cargo) {
+                    super(nombre, apellido, edad);
+                    this.cargo = cargo;
+                }
+
+                muestraCargo() {
+                    alert(`Cargo: ${this.cargo}`);
+                }
+                
+            }
+
+            var Empleado1 = new Empleado("Pepe", "Moreno", 12);
+
+            var Profesor1 = new Profesor("Manolor", "Pérez", 30, "Profesor Inglés");
+
+            Empleado1.muestra();
+
+            Profesor1.muestra();
+            
+            Profesor1.muestraCargo();
+
+        }
+
+
+
+    </script>
+
+</head>
+
+<body>
+
+    <body onload="javascript:todo()" ;></body>
+
+</body>
+
+</html>

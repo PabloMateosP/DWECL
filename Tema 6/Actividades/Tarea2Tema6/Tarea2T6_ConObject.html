@@ -14,7 +14,7 @@
 
             var datosProductos = [];
 
-            var articulo = {};
+        
 
             while (salir == false) {
 
@@ -25,15 +25,15 @@
                 switch (datos) {
                     case '1':
                         console.log("Ver cesta elegida");
-                        verCesta(datosProductos, articulo);
+                        verCesta(datosProductos);
                         break;
                     case '2':
                         console.log("Añadir producto a la cesta");
-                        añadirProducto(datosProductos, articulo);
+                        añadirProducto(datosProductos);
                         break;
                     case '3':
                         console.log("Eliminar producto de la cesta");
-                        eliminarProducto(datosProductos, articulo);
+                        eliminarProducto(datosProductos);
                         break;
                     case '4':
                         console.log("Vaciar cesta");
@@ -51,7 +51,7 @@
 
         }
 
-        function verCesta(datosProductos, articulo) {
+        function verCesta(datosProductos) {
 
             var mensaje = "Cod   |      Nombre     |     Precio     |     Cantidad     |     Subtotal\n---------------------------------------------------------------------------- \n"
             var total = 0;
@@ -67,7 +67,7 @@
                     mensaje += [datosProductos[i].datoNombre + "                   "];
                     mensaje += [datosProductos[i].datoPrecio + "                   "];
                     mensaje += [datosProductos[i].datoCantidad + "                   "];
-                    subTotal =  Number(datosProductos[i].datoPrecio * datosProductos[i].datoCantidad);
+                    subTotal = Number(datosProductos[i].datoPrecio * datosProductos[i].datoCantidad);
                     mensaje += [subTotal + "                   "];
 
                 }
@@ -79,9 +79,9 @@
 
         }
 
-        function añadirProducto(datosProductos, articulo) {
+        function añadirProducto(datosProductos) {
 
-            articulo = {
+            var articulo = {
                 datoCod: Number(datosProductos.length) + 1,
 
                 datoNombre: prompt('Introduzca el nombre del producto:'),
@@ -92,12 +92,10 @@
 
             }
 
-            añadirCesta(articulo, datosProductos);
-        }
-
-        function añadirCesta(articulo, datosProductos) {
+            //añado los valores al array de productos
             datosProductos.push(articulo);
-            return datosProductos;
+
+            //añadirCesta(articulo, datosProductos);
         }
 
         function eliminarProducto(datosProductos) {
