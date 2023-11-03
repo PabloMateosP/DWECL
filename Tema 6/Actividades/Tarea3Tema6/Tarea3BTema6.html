@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+
+        // Clase Producto
+        class Producto {
+            constructor(codigo, nombre, precio, cantidad) {
+                this.codigo = codigo;
+                this.nombre = nombre;
+                this.precio = precio;
+                this.cantidad = cantidad;
+            }
+
+            calcularSubtotal() {
+                return this.precio * this.cantidad;
+            }
+        }
+
+        // Clase Cesta
+        class Cesta {
+            constructor() {
+                this.productos = [];
+            }
+
+            agregarProducto(producto) {
+                this.productos.push(producto);
+            }
+
+            eliminarProducto(codigo) {
+                // Mediante el método filter búscamos el cósdigo del producto a eleminar
+                this.productos = this.productos.filter(producto => producto.codigo !== codigo);
+            }
+
+            vaciarCesta() {
+                this.productos = [];
+            }
+
+            calcularTotal() {
+                var total = 0;
+                for (let i = 0; i < this.productos.length; i++) {
+                    total += this.productos[i].calcularSubtotal();
+                }
+                return total;
+            }
+
+            mostrarCesta() {
+                let mensaje = "Cod   |      Nombre     |     Precio     |     Cantidad     |     Subtotal\n---------------------------------------------------------------------------- \n";
+
+                this.productos.forEach(producto => {
+                    mensaje += `${producto.codigo}                   ${producto.nombre}                   ${producto.precio}                   ${producto.cantidad}                   ${producto.calcularSubtotal()}                   \n`;
+                });
+
+                mensaje += "---------------------------------------------------------------------------- \n";
+                mensaje += `TOTAL: ${this.calcularTotal()}`;
+                alert(mensaje);
+            }
+        }
+
+        function agregarProductoCesta(cesta) {
+            var nombre = prompt('Introduzca el nombre del producto:');
+            var precio = Number(prompt('Introduzca precio del producto'));
+            var cantidad = Number(prompt('Introduzca cantidad del producto'));
+
+            // Añadimos al producto los datos introducidos anteriormente por el usuario 
+            var producto = new Producto(cesta.productos.length + 1, nombre, precio, cantidad);
+            cesta.agregarProducto(producto);
+        }
+
+        function eliminarProductoDeLaCesta(cesta) {
+            var codProductoIntroducido = Number(prompt("Introduzca el código del producto a eliminar:"));
+            cesta.eliminarProducto(codProductoIntroducido);
+        }
+
+        function menu() {
+            var salir = false;
+            var cesta = new Cesta();
+
+            while (!salir) {
+                var opcion = prompt("1. Ver cesta \n2. Insertar un artículo \n3. Borrar un artículo \n4. Vaciar cesta \n5. Salir");
+
+                if (opcion === null) return;
+
+                switch (opcion) {
+                    case '1':
+                        console.log("Ver cesta elegida");
+                        cesta.mostrarCesta();
+                        break;
+
+                    case '2':
+                        console.log("Añadir producto a la cesta");
+                        agregarProductoCesta(cesta);
+                        break;
+
+                    case '3':
+                        console.log("Eliminar producto de la cesta");
+                        eliminarProductoDeLaCesta(cesta);
+                        break;
+
+                    case '4':
+                        console.log("Vaciar cesta");
+                        cesta.vaciarCesta();
+                        break;
+
+                    case '5':
+                        console.log("Salir del menú");
+                        salir = true;
+                        break;
+
+                    default:
+                        alert("Elija una opción del 1 - 5");
+                }
+            }
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <body onload="javascript:menu();"></body>
+
+</body>
+
+</html>
