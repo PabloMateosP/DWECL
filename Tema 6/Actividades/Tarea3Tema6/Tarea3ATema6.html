@@ -22,7 +22,8 @@
                     this.#edad = edad;
 
                     this.muestra = function () {
-                        alert(`Nombre: ${this.nombre} ${this.apellido}\nEdad: ${edad}`);
+                        //alert(`Nombre: ${this.nombre} ${this.apellido}\nEdad: ${edad}`);
+                        return "Nombre: " + this.nombre +" "+ this.apellido +"\nEdad: "+ edad;
                     };
                 }
                 
@@ -35,7 +36,8 @@
                 }
 
                 muestraCargo() {
-                    alert(`Cargo: ${this.cargo}`);
+                    //alert(`Cargo: ${this.cargo}`);
+                    return "\nCargo: " + this.cargo;
                 }
                 
             }
@@ -44,11 +46,11 @@
 
             var Profesor1 = new Profesor("Manolor", "Pérez", 30, "Profesor Inglés");
 
-            Empleado1.muestra();
+            alert(Empleado1.muestra());
 
-            Profesor1.muestra();
+            alert(Profesor1.muestra() + Profesor1.muestraCargo());
             
-            Profesor1.muestraCargo();
+            
 
         }
 
