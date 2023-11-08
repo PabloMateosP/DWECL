@@ -1,9 +1,0 @@
-Pueden aparecer varias respuestas en el caso del cálculo de la MODA
-
-- 1. No tenga moda ya que no hay ningún número que se repita más que los otrofa-spin
-
-- 2. Solamente se repite un número con respecto a los demás el cual será la moda
-
-- 3. Existen 2 modas (Hay dos números que se repiten más que los demás)
-    - Si existe algún valor entre ellos --> Serían ambos las modas.
-    - Si no existe ningún valor entre ellos --> La moda sería la media entre ambos valores
