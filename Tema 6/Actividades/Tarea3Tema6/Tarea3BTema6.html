@@ -35,7 +35,7 @@
                     this.precio = Number(prompt('Introduzca el precio del producto:')),
                     this.cantidad = Number(prompt('Introduzca la cantidad de unidades que desea comprar:'))
                 );
-                
+
                 this.productos.push(productoInsertar);
             }
 
@@ -48,7 +48,7 @@
             }
 
             vaciarCesta() {
-                this.productos = [];
+                this.productos.length = 0;
             }
 
             calcularTotal() {
