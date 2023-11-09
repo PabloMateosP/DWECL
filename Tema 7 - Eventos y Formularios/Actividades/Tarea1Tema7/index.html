@@ -9,6 +9,23 @@
             <h1>Solicitud de baja de vehículos.</h1>
         </header>
     </div>
+
+    <script>  
+        function valida ( ) {           
+            var email = document.getElementById("idEmailTitular");
+            if (email.validity.typeMismatch) {
+                email.setCustomValidity("¡Correo erróneo!");
+            } else {
+                email.setCustomValidity("");
+            }
+        }
+        function fEvento( ) {
+            var bot = document.getElementById("bot");
+            bot.addEventListener("click", valida);    
+        }    
+       window.onload=fEvento; // Necesario esperar que se carguen los elementos HTML
+    </script>
+
 </head>
 
 <body>
@@ -94,7 +111,7 @@
                                 <div class="invalid-feedback">
                                     Pulse una de las dos opciones
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
