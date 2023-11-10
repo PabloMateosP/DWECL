@@ -15,11 +15,13 @@
             var bot = document.getElementById("bot");
             bot.addEventListener("click", valida);    
         }    
+
        window.onload=fEvento; // Necesario esperar que se carguen los elementos HTML
+
     </script>
 </head>
 <body>    
-        <form id="form1" action="index.html">
+        <form id="form1">
             <label>Insertar DNI.</label>
             <input type="text" id="id" name="dni" pattern="^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]$" required><br><br>
             <label>Insertar correo</label>
