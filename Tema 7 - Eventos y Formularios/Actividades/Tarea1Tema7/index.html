@@ -17,47 +17,56 @@
 
     <script>
 
-        function validaMatricula() {
-            var matricula = document.getElementById("idMatricula");
+        class vehiculo {
 
-            if (matricula.validity.patternMismatch) {
-                matricula.setCustomValidity("¡Matrícula Incorrecta!");
-            } else {
-                email.setCustomValidity("");
+            constructor() {
+                window.onload.fEvento();
             }
 
-        }
+            #validaMatricula() {
+                var matricula = document.getElementById("idMatricula");
 
-        function validaEmail() {
-            var email = document.getElementById("idEmailTitular");
-
-            if (email.validity.typeMismatch){
-                email.setCustomValidity("¡Correo erróneo!");
-            } else {
-                email.setCustomValidity("");
+                if (matricula.validity.patternMismatch) {
+                    matricula.setCustomValidity("¡Matrícula Incorrecta!\nFormato: AAAA + NNN");
+                } else {
+                    matricula.setCustomValidity("");
+                }
             }
 
+            #validaEmail() {
+                var email = document.getElementById("idEmailTitular");
+
+                if (email.validity.typeMismatch) {
+                    email.setCustomValidity("¡Correo erróneo!");
+                } else {
+                    email.setCustomValidity("");
+                }
+            }
+
+            fEvento() {
+                var bot = document.getElementById("bot");
+                bot.addEventListener('keyup', this.#validaMatricula.bind(this));
+                bot.addEventListener('keyup', this.#validaEmail.bind(this));
+            }
         }
 
-        function fEvento() {
-            var bot = document.getElementById("bot");
-            bot.addEventListener('click', validaMatricula);
-            bot.addEventListener('click', validaEmail);
-        }
-
-        window.onload = fEvento;
+        // No sé si funciona
+        addEventListener(bot = document.getElementById('bot'), fEvento());
 
     </script>
 
     <style>
+
         #idCheck input {
             border-color: grey;
         }
+
     </style>
 
 </head>
 
 <body>
+
     <br>
     <form class="was-validated" id="form1">
         <div class="container text-left">
@@ -66,8 +75,8 @@
                 <h3>Datos del vehículo:</h3>
                 <div class="col">
                     <label>Matrícula</label>
-                    <input type="text" class="form-control" id="idMatricula" name="matricula"
-                        pattern="^[0-9]{4}[TRWAGMYFPDXBNJZSQVHLCKET]{3}$" required>
+                    <input type="text" class="form-control" id="matricula" name="matricula" pattern="^[0-9]{4}[A-Z]{3}$"
+                        required>
                 </div>
                 <div class="col">
                     <label>Fecha matriculación</label>
@@ -117,17 +126,17 @@
                                 pattern="^[0-9]{9}" required><br><br>
                         </div>
 
-                        <div class="col" id="idCheck">
+                        <div class="col">
                             <label id="tipoBaja">Tipo de baja: </label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="check" id="idcheckTemporal">
+                                <input class="form-check-input" type="radio" name="check" id="idcheck" required>
                                 <label class="form-check-label">
                                     Temporal
                                 </label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="check" id="idcheckDefinitiva">
+                                <input class="form-check-input" type="radio" name="check" id="idcheck" required>
                                 <label class="form-check-label">
                                     Definitiva
                                 </label>
