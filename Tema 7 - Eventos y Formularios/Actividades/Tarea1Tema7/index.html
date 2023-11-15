@@ -13,55 +13,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <!-- <script>
-
-        class Vehiculo {
-            constructor() {
-                window.onload = this.fEvento;
-                
-            }
-
-            #validaMatricula() {
-                var matricula = document.getElementById("idMatricula");
-
-                if (matricula.validity.patternMismatch) {
-                    matricula.setCustomValidity("¡Matrícula Incorrecta!\nFormato: AAAA + NNN");
-                } else {
-                    matricula.setCustomValidity("");
-                }
-            }
-
-            #validaEmail() {
-                var email = document.getElementById("idEmailTitular");
-
-                if (email.validity.typeMismatch) {
-                    email.setCustomValidity("¡Correo erróneo!");
-                } else {
-                    email.setCustomValidity("");
-                }
-            }
-
-            #editaEmail() {
-                document.getElementById('idDni').addEventListener('input', function () {
-                    document.getElementById('idLabelDNI').innerText = 'Insertando DNI...';
-                });
-            }
-
-            fEvento() {
-                var bot = document.getElementById("bot");
-                bot.addEventListener("keyup", this.#validaMatricula.bind(this));
-                bot.addEventListener("keyup", this.#validaEmail.bind(this));
-
-                var inputDNI = document.getElementById("idDni");
-                inputDNI.addEventListener("keyup", this.#editaEmail.bind(this));
-            }
-        }
-
-        window.onload = Vehiculo.fEvento();
-        window.addEventListener('load', () => new Vehiculo());
-
-    </script> -->
-
     <script>
         class Vehiculo {
             constructor() {
@@ -90,7 +41,19 @@
                 }
             }
 
-            #editaEmail() {
+            #editaDNI() {
+
+                document.getElementById("idLabelDNI").innerText = 'Editando Id...';
+                
+            }
+
+            #resetDNI(){
+
+                document.getElementById("idLabelDNI").innerText = 'Dni';
+            
+            }
+
+            #incoDNI() {
 
                 var dni = document.getElementById('idDni')
 
@@ -102,18 +65,20 @@
 
                 }
 
-                document.getElementById('idLabelDNI').innerText = 'Editando Id...';
-                
             }
 
             #fEvento() {
 
-                var bot = document.getElementById("bot");
-                bot.addEventListener('keyup', this.#validaMatricula.bind(this));
-                bot.addEventListener('keyup', this.#validaEmail.bind(this));
+                var inputMatricula = document.getElementById("idMatricula");
+                inputMatricula.addEventListener("keyup", this.#validaMatricula.bind(this));
+
+                var inputEmail = document.getElementById("idEmailTitular");
+                inputEmail.addEventListener("keyup", this.#validaEmail.bind(this));
 
                 var inputDNI = document.getElementById("idDni");
-                inputDNI.addEventListener("focus", this.#editaEmail.bind(this));
+                inputDNI.addEventListener("focus", this.#editaDNI.bind(this));
+                inputDNI.addEventListener("blur", this.#resetDNI.bind(this));
+                inputDNI.addEventListener("keyup", this.#incoDNI.bind(this));
 
             }
         }
