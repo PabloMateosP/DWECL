@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div class="container text-left">
+        <header class="pb-3 mb-4 border-bottom">
+            <h1>Solicitud de baja de vehículos.</h1>
+        </header>
+    </div>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <script>
+
+        function validaMatricula() {
+            var matricula = document.getElementById("idMatricula");
+
+            if (matricula.validity.patternMismatch) {
+                matricula.setCustomValidity("¡Matrícula Incorrecta!\nFormato: AAAA + NNN");
+            } else {
+                email.setCustomValidity("");
+            }
+
+        }
+
+        function validaEmail() {
+            var email = document.getElementById("idEmailTitular");
+
+            if (email.validity.typeMismatch) {
+                email.setCustomValidity("¡Correo erróneo!");
+            } else {
+                email.setCustomValidity("");
+            }
+
+        }
+
+        function fEvento() {
+            var bot = document.getElementById("bot");
+            bot.addEventListener('click', validaMatricula);
+            bot.addEventListener('click', validaEmail);
+        }
+
+        window.onload = fEvento;
+
+    </script>
+
+    <style>
+        #idCheck input {
+            border-color: grey;
+        }
+    </style>
+
+</head>
+
+<body>
+    <br>
+    <form class="was-validated" id="form1">
+        <div class="container text-left">
+            <div class="row align-items-start" id="datosVehiculo">
+                <br>
+                <h3>Datos del vehículo:</h3>
+                <div class="col">
+                    <label>Matrícula</label>
+                    <input type="text" class="form-control" id="idMatricula" name="matricula"
+                        pattern="^[0-9]{4}[TRWAGMYFPDXBNJZSQVHLCKET]{3}$" required>
+                </div>
+                <div class="col">
+
+                </div>
+                <div class="col-sm-6">
+                    <label>6 últimos dígitos (nº bastidor)</label>
+                    <input type="text" class="form-control" id="digitosBastidor" name="digitosBastidor"
+                        pattern="^[0-9]{6}$" required><br><br>
+                </div>
+            </div>
+            <div class="row align-items-start" id="datosTitular">
+                <h3>Datos del vehículo:</h3>
+                <div class="col">
+                    <label>Nombre: </label>
+                    <input type="text" class="form-control" id="nTitular" name="nombreTitular" required><br><br>
+                </div>
+                <div class="col">
+                    <label>Apellidos: </label>
+                    <input type="text" class="form-control" id="id" name="dni" required><br><br>
+                </div>
+                <div class="col-sm-6">
+                    <label>Domicilio: </label>
+                    <input type="text" class="form-control" id="domicilio" name="domicilio" required><br><br>
+                </div>
+                <div>
+                    <div class="row align-items-start" id="datosTitular">
+                        <div class="col">
+                            <label>DNI</label>
+                            <input type="text" class="form-control" id="idDni" name="dni"
+                                pattern="^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$" required><br><br>
+                        </div>
+                        <div class="col">
+                            <label>Correo Electrónico</label>
+                            <input type="email" class="form-control" id="idEmailTitular" name="emailTitular"
+                                required><br><br>
+                        </div>
+                        <div class="col">
+                            <label>Tlf:</label>
+                            <input type="text" class="form-control" id="idTelefonoTitular" name="telefonoTitular"
+                                pattern="^[0-9]{9}" required><br><br>
+                        </div>
+                        <div class="col" id="idCheck">
+                            <label id="tipoBaja">Tipo de baja: </label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="check" id="idcheckTemporal">
+                                <label class="form-check-label">
+                                    Temporal
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="check" id="idcheckDefinitiva">
+                                <label class="form-check-label">
+                                    Definitiva
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <center><button id="bot" type="submit" class="btn btn-success">Enviar</button></center>
+    </form>
+</body>
+
+</html>
