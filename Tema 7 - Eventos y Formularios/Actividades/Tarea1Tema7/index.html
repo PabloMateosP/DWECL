@@ -12,15 +12,13 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
+        
     <script>
 
-        class vehiculo {
-
+        class Vehiculo {
             constructor() {
-                window.onload.fEvento();
+                window.onload = this.fEvento;
+                
             }
 
             #validaMatricula() {
@@ -43,24 +41,31 @@
                 }
             }
 
+            #editaEmail() {
+                document.getElementById('idDni').addEventListener('input', function () {
+                    document.getElementById('idLabelDNI').innerText = 'Insertando DNI...';
+                });
+            }
+
             fEvento() {
                 var bot = document.getElementById("bot");
-                bot.addEventListener('keyup', this.#validaMatricula.bind(this));
-                bot.addEventListener('keyup', this.#validaEmail.bind(this));
+                bot.addEventListener("keyup", this.#validaMatricula.bind(this));
+                bot.addEventListener("keyup", this.#validaEmail.bind(this));
+
+                var inputDNI = document.getElementById("idDni");
+                inputDNI.addEventListener("keyup", this.#editaEmail.bind(this));
             }
         }
+        window.addEventListener('load', () => new Vehiculo());
 
-        // No sé si funciona
-        addEventListener(bot = document.getElementById('bot'), fEvento());
+        
 
     </script>
 
     <style>
-
         #idCheck input {
             border-color: grey;
         }
-
     </style>
 
 </head>
@@ -71,11 +76,10 @@
     <form class="was-validated" id="form1">
         <div class="container text-left">
             <div class="row align-items-start" id="datosVehiculo">
-                <br>
                 <h3>Datos del vehículo:</h3>
                 <div class="col">
                     <label>Matrícula</label>
-                    <input type="text" class="form-control" id="matricula" name="matricula" pattern="^[0-9]{4}[A-Z]{3}$"
+                    <input type="text" class="form-control" id="idMatricula" name="matricula" pattern="^[0-9]{4}[A-Z]{3}$"
                         required>
                 </div>
                 <div class="col">
@@ -109,7 +113,7 @@
                     <div class="row align-items-start" id="datosTitular">
 
                         <div class="col">
-                            <label>DNI</label>
+                            <label id="idLabelDNI">DNI</label>
                             <input type="text" class="form-control" id="idDni" name="dni"
                                 pattern="^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$" required><br><br>
                         </div>
