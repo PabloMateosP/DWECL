@@ -2,91 +2,118 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <style>
-        body {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: antiquewhite
-        }
-    </style>
-
-<script>
-
-    class Alumno {
-      constructor(nombre, contraseña) {
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: antiquewhite
+    }
+  </style>
+  <script>
+    class Usuario {
+      constructor(nombre, password) {
         this.nombre = nombre;
-        this.contraseña = contraseña;
-      }
-    
-      validarContraseña() {
-        
-        const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-        return pattern.test(this.contraseña);
-      }
-    
-      static validarLogin() {
-        const usernameInput = document.getElementById("username").value;
-        const passwordInput = document.getElementById("password").value;
-    
-        // Crear un array de alumnos
-        const alumnos = [
-          new Alumno("usuario1", "Password1"),
-          new Alumno("usuario2", "SecurePass2"),
-          new Alumno("usuario3", "StrongPwd3"),
-        ];
-    
-        // Buscar el alumno en el array
-        const alumnoEncontrado = alumnos.find(alumno => alumno.nombre === usernameInput);
-    
-        if (alumnoEncontrado) {
-          // Validar la contraseña usando el método de la clase Alumno
-          if (alumnoEncontrado.validarContraseña(passwordInput)) {
-            alert("Se ha iniciado sesión");
-            document.getElementById("loginForm").submit();
-          } else {
-            alert("Contraseña no válida. Debe cumplir con el formato especificado.");
-          }
-        } else {
-          alert("No se encontró el usuario");
-        }
+        this.password = password;
       }
     }
-    </script>
+
+    class Login {
+      #usuariosCreados = [];
+
+      constructor() {
+        this.#insertarUser();
+        this.lanzarEventos();
+      }
+
+      #insertarUser() {
+        this.#usuariosCreados.push(new Usuario("ElEscandaloso", "Raya15690"));
+        this.#usuariosCreados.push(new Usuario("VanTias", "JiUnCarajo1"));
+        //this.#usuariosCreados.push(new Usuario("ElTato", "PongaseEnElCapo1"));
+      }
+
+      #contrasenaCorrecta() {
+        var contr = document.getElementById("idPasswdUser");
+        if (contr.validity.patternMismatch) {
+          contr.setCustomValidity("Formato Denegado!\n Debe tener: 8 caracteres mínimo, al menos 1 mayúscula, 1 minúscula, y 1 número");
+        } else {
+          contr.setCustomValidity("");
+        }
+      }
+
+      #compabacionDatos(event) {
+        console.log("Se lanza función comprobar usuario y contraseña");
+        
+        var user = document.getElementById("idNameUser");
+
+        var pass = document.getElementById("idPasswdUser");
+
+        var usuarioEncontrado = false;
+
+        for (let i = 0; i < this.#usuariosCreados.length; i++) {
+          console.log("Buscamos el usuario en el array")
+          if (this.#usuariosCreados[i].nombre === user && this.#usuariosCreados[i].password === pass) {
+            console.log("Usuario encontrado");
+            alert("Se ha iniciado sesión correctamente. Iniciando...");
+            return;
+            
+          } else{
+            alert("Usuario no encontrado.")
+          }
+        }
+
+      }
+
+      lanzarEventos() {
+        console.log("Se lanza función lanzarEventos")
+        var password = document.getElementById("idPasswdUser");
+        var datos = document.getElementById("form1");
+
+        password.addEventListener("keyup", this.#contrasenaCorrecta.bind(this));
+        datos.addEventListener("submit", this.#compabacionDatos.bind(this));
+      }
+    }
+
+    window.onload = function () {
+      new Login();
+    };
+
+  </script>
 
 </head>
 
 <body>
-    <form>
-        <div class="card border-dark mb3" style="max-width: 30rem; display:block; align-items: center;">
-            <div class="card-header">
-                <h1>Inicio Sesión</h1>
-            </div>
-            <div class="card-body">
-                <div class="row align-items-start">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" >
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1" >
-                    </div>
-                    <div class="d-grid gap-2 col-6 mx-auto">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </div>
-            </div>
+  <form id="form1" method="get">
+    <div class="card border-dark mb3" style="max-width: 30rem; display:block; align-items: center;">
+      <div class="card-header">
+        <h1>Inicio Sesión</h1>
+      </div>
+      <div class="card-body">
+        <div class="row align-items-start">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Nombre Usuario: </label>
+            <input type="text" class="form-control" id="nameUser">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" name="passwdUser" id="idPasswdUser"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$">
+          </div>
+          <div class="d-grid gap-2 col-6 mx-auto">
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
         </div>
-    </form>
+      </div>
+    </div>
+  </form>
 </body>
 
 </html>
