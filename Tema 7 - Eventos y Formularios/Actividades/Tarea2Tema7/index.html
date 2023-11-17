@@ -37,7 +37,8 @@
       #insertarUser() {
         this.#usuariosCreados.push(new Usuario("ElEscandaloso", "Raya15690"));
         this.#usuariosCreados.push(new Usuario("VanTias", "JiUnCarajo1"));
-        //this.#usuariosCreados.push(new Usuario("ElTato", "PongaseEnElCapo1"));
+        this.#usuariosCreados.push(new Usuario("ElTato", "PongaseEnElCapo1"));
+        this.#usuariosCreados.push(new Usuario("ErZamue", "ChiChamueChiChi1"));
       }
 
       #contrasenaCorrecta() {
@@ -52,9 +53,9 @@
       #compabacionDatos(event) {
         console.log("Se lanza función comprobar usuario y contraseña");
         
-        var user = document.getElementById("idNameUser");
+        var user = document.getElementById("nameUser").value;
 
-        var pass = document.getElementById("idPasswdUser");
+        var pass = document.getElementById("idPasswdUser").value;
 
         var usuarioEncontrado = false;
 
@@ -66,7 +67,7 @@
             return;
             
           } else{
-            alert("Usuario no encontrado.")
+            alert("Usuario no encontrado.");
           }
         }
 
