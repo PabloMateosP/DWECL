@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UbriTek</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <!--Estilos personalizados para la validación de contenido (inputs en este caso)-->
+    <style type="text/css">
+        input:invalid {
+            border: 1px solid red;
+        }
+
+        input:valid {
+            border: 1px solid green;
+        }
+    </style>
+    <!--JS de BootStrap.-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <!-- Clases creadas para el ejercicio -->
+    <script>
+
+        // Clase usuario. Creada principalmente para poder instanciar usuarios
+        class Usuario {
+            constructor(nombre, contrasenia) {
+                this.nombre = nombre;
+                this.contrasenia = contrasenia;
+            }
+        }
+
+        // Clase principal del ejercicio. Contiene un array privado de usuarios y los métodos necesarios para cumplir lo que se pide en el ejercicio
+        class Session {
+            #usuarios = []; // Array con visibilidad privada. Se cargarán en su interior objetos con datos de usuario
+            // Constructor creado para que una vez que instanciemos la clase, se ejecute dicha función.
+            constructor() {
+                this.#insertarUsuarios();
+            }
+
+            // Añadimos unos cuantos usuarios al array privado de la clase.
+            // Este método se llamará cada vez que instanciemos la clase Session, para tener siempre contenido en el array de objetos
+            #insertarUsuarios() {
+                this.#usuarios.push(new Usuario("Usuario1", "User2345"));
+            }
+
+            // Función encargada de lanzar un mensaje personalizado si el formato de la contraseña no es el correcto
+            #validaPasswd() {
+                var passwd = document.getElementById("passwd");
+                if (passwd.validity.patternMismatch) {
+                    passwd.setCustomValidity("Formato incorrecto!! Debe tener: 8 caracteres mínimo, al menos 1 mayúscula, 1 minúscula, y 1 número");
+                } else {
+                    passwd.setCustomValidity("");
+                }
+            }
+
+            // Función que comprobará si el usuario y la contraseña se encuentran en el array de la propia clase session
+            // Si coinciden los valores, se lanzará un alert indicando que se ha iniciado correctamente la sesión.
+            // Si no coinciden, se mostrará el mensaje correspondiente. Además, usaremos preventDefault, un método de la clase "Event". Este método
+            // nos permite "cancelar" la acción predeterminada del formulario (submit). Con esto nos evitamos el enviar los datos del formulario erroneos.
+            #comprobarUserPasswd(event) {
+                var nombreUser = document.getElementById("user").value;
+                var passwdUser = document.getElementById("passwd").value;
+                for (let i = 0; i < this.#usuarios.length; i++) {
+                    if (this.#usuarios[i].nombre === nombreUser && this.#usuarios[i].contrasenia === passwdUser) {
+                        alert("Se ha iniciado sesión correctamente. Iniciando....");
+                        return;
+                    }
+                }
+                alert("No coincide el usuario y la contraseña");
+                event.preventDefault(); // Cancelación del evento predeterminado del formulario (submit)
+            }
+
+            // Función empleada para englobar todos los métodos privados de la clase session
+            losEventos() {
+                var password = document.getElementById("passwd");
+                password.addEventListener('keyup', this.#validaPasswd.bind(this));
+
+                var formulario = document.getElementById("form1");
+                formulario.addEventListener('submit', this.#comprobarUserPasswd.bind(this));
+            }
+        }
+
+        // Creamos una breve función, que contendrá la instacia de la clase session, junto a la correspondiente llamada a la función "losEventos"
+        function load() {
+            var eventos = new Session();
+            eventos.losEventos();
+        }
+        // Ahora cada vez que cargemos la página, se cargará junto al HTML.
+        window.onload = load;
+
+    </script>
+</head>
+
+<body>
+    <div class="container text-left">
+        <header class="pb-3 mb-4 border-bottom">
+            <span class="fs-4">UbriTek - Login</span>
+        </header>
+        <div class="mb-3">
+            <!--Usamos el metodo GET para comprobar que se envía la información si todo está en ordén y cumple con el enunciado, en un entorno real sería inviable puesto a que no habría seguridad alguna-->
+            <form id="form1" method="GET">
+                <div class="row g-3">
+                    <h3>Inicio de Sesión:</h3>
+                    <div class="col-md-2">
+                        <label class="form-label">Usuario:</label>
+                        <input id="user" class="form-control" name="user" type="text" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Contraseña:</label>
+                        <input type="password" name="passwd" id="passwd" class="form-control" minlength="8"
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required />
+                    </div>
+                </div>
+                <br />
+                <br />
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

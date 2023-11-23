@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXAMEN I</title>
+    <!-- La sección head incluye etiquetas meta y el título para el documento HTML. -->
+    <script>
+        // Función para ingresar valores en una matriz
+        function introducirValores() {
+            var matrizVacia = []; // Array vacío para representar la matriz
+            var dependenciaActual = []; // Array vacío para representar la fila actual que se está ingresando
+            var numIntroducido = 0; // Variable para almacenar el valor ingresado por el prompt
+            var countTomas = 1;
+            var countDependencias = 1; // Indica las filas (arrays) que ya han sido ingresadas
+
+            // Bucle infinito para entrada continua
+            while (true) {
+                numIntroducido = prompt("Introduce toma: " + countTomas +". Dependencia: " + countDependencias + ": (N o n para una nueva dependencia/E o X para salir)");
+
+                if (numIntroducido === "E" || numIntroducido === "X" || numIntroducido === null || numIntroducido === 0) {
+                    // Salir del programa
+                    if (dependenciaActual.length > 0) {
+                        matrizVacia.push(dependenciaActual); // Agrega el array de la fila actual a la matriz antes de salir del bucle
+                    }
+                    return matrizVacia;
+                } else if (numIntroducido === "n" || numIntroducido === "N") {
+                    // Nueva fila
+                    matrizVacia.push(dependenciaActual); // Agrega el array de la fila actual a la matriz
+                    dependenciaActual = []; // Limpia el array de la fila actual para nuevos valores
+                    countDependencias++;
+                    countTomas = 1;
+                } else if (Number(numIntroducido) < 0){
+                    alert("Ingresa un valor válido");
+                } else {
+                    // Convierte el valor ingresado a un número y agrégalo al array de la fila actual
+                    numIntroducido = Number(numIntroducido);
+                    dependenciaActual.push(numIntroducido);
+                    countTomas++;
+                }
+            }
+        }
+
+        // Función para calcular el máximo de cada dependencia
+        function maximoDependencias(valores){
+            var matrizAnterior = valores; // Ingresa la matriz anterior
+            var maxDependencia = []; // Array para almacenar los valores máximos de cada dependencia
+            var maxArray = 0; // Variable para almacenar el valor máximo de cada array
+            var posicionFinal = 0; // Índice del último elemento en el array
+            var arrayOrdenado = 0;
+            var resultado = "Valores máximos por dependencia= ";
+            var contador = 1;
+
+            if (matrizAnterior.length === 0){
+                alert("Matriz vacía");
+                return maxDependencia;
+            }
+
+            // Itera a través de la matriz
+            for (var i = 0; i < matrizAnterior.length; i++){
+                // Ordena el array
+                arrayOrdenado = matrizAnterior[i].sort(function(a, b){ return a - b; });
+                // Obtiene el valor final de cada array (el más grande)
+                posicionFinal = (arrayOrdenado.length - 1);
+                maxArray = arrayOrdenado[posicionFinal];
+                resultado += "Dependencia " + contador + "= " + maxArray + ".";
+                contador++;
+                maxDependencia.push(maxArray);
+            }
+
+            alert(resultado);
+            return maxDependencia;
+        }
+
+        // Función para mostrar dependencias con valores máximos que exceden 2 KW/H
+        function vatiosSobrepasados(maximos){
+            var maximosAnteriores = maximos; // Carga el array proporcionado por la función anterior (valores máximos de las dependencias)
+            var resultado = "Dependencias con valores máximos que exceden 2 KW/H= ";
+            var contador = 1;
+
+            if (maximosAnteriores.length === 0){
+                alert("Array vacío");
+                return;
+            }
+
+            for (var i = 0; i < maximosAnteriores.length; i++){
+                if (maximosAnteriores[i] > 2){
+                    resultado += "Dependencia " + contador + "= " + maximosAnteriores[i];
+                }
+                contador++;
+            }
+
+            alert(resultado);
+        }
+      
+        // Función que contiene la ejecución del programa
+        function ejecucionPrograma(){
+            var valores = 0;
+            var maximos = 0;
+
+            if (valores === 0){
+                valores = introducirValores();
+            }
+            if (maximos === 0){
+                maximos = maximoDependencias(valores);
+            }
+            vatiosSobrepasados(maximos);
+        }
+    </script>
+</head>
+<body onload="ejecucionPrograma();">
+    <!-- Sección body con el atributo onload llamando a la función ejecucionPrograma cuando la página carga -->
+</body>
+</html>

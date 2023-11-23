@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baja de Vehiculos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <!--Estilos personalizados para la validación de contenido (inputs en este caso)-->
+    <style type="text/css">
+        input:invalid {
+            border: 1px solid red;
+        }
+
+        input:valid {
+            border: 1px solid green;
+        }
+    </style>
+    <!--JS de BootStrap.-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <!--Clase BajaVehiculo + metódos necesarios para el ejercicio-->
+    <script>
+        class BajaVehiculo {
+
+            // Función creada para modificar el estado de la etiqueta label con el id "modificarDNI"
+            #modificaDNI() {
+                var mod = document.getElementById("modificarDNI").innerHTML = "Editando DNI....";
+            }
+
+            // Función creada para devolver el estado original de la etiqueta label con el id "modificarDNI"
+            #dniOriginal() {
+                var dni = document.getElementById("modificarDNI").innerHTML = "DNI:";
+            }
+
+            //Función creada para añadir un mensaje personalizado en caso de error
+            #valida() {
+                var matr = document.getElementById("matricula");
+                if (matr.validity.patternMismatch) {
+                    matr.setCustomValidity("Formato de matrícula erróneo (4 números + 3 letras mayúsculas)!!");
+                } else {
+                    matr.setCustomValidity("");
+                }
+            }
+
+            //Función creada para añadir un mensaje personalizado en caso de error
+            #validaDNI() {
+                var dniValid = document.getElementById("inputDNI");
+                if (dniValid.validity.patternMismatch) {
+                    dniValid.setCustomValidity("Formato de DNI erróneo (8 números + 1 letra en mayúscula)!!");
+                } else {
+                    dniValid.setCustomValidity("");
+                }
+            }
+
+            // Función creada para englobar todas las funciones anteriores en una. 
+            losEventos() {
+                var matr = document.getElementById("matricula");
+                matr.addEventListener("keyup", this.#valida.bind(this));
+
+                var dni = document.getElementById("inputDNI");
+                dni.addEventListener("focus", this.#modificaDNI.bind(this));
+                dni.addEventListener("blur", this.#dniOriginal.bind(this));
+
+                var dniValid = document.getElementById("inputDNI");
+                dniValid.addEventListener("keyup", this.#validaDNI.bind(this));
+            }
+        }
+
+        // Instancia la clase BajaVehiculo. Lo añadimos a un método personalizado, que será cargado en el window.onload correspondiente
+        function load() {
+            var eventos = new BajaVehiculo();
+            eventos.losEventos();
+        }
+        window.onload = load;
+    </script>
+</head>
+
+<body>
+    <div class="container text-left">
+        <header class="pb-3 mb-4 border-bottom">
+            <span class="fs-4">Solicitud de baja de vehículos</span>
+        </header>
+        <div class="mb-3">
+            <form id="form1" method="GET">
+                <div class="row g-3">
+                    <h3>Datos del vehículo:</h3>
+                    <div class="col-md-2">
+                        <label class="form-label">Matrícula:</label>
+                        <input id="matricula" name="matricula" type="text" class="form-control"
+                            pattern="^[0-9]{4}[A-Z]{3}$" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Fecha Matriculación:</label>
+                        <input type="date" name="fechaMatr" class="form-control" placeholder="dd/mm/aaaa" required />
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label">6 últimos dígitos (nº bastidor):</label>
+                        <input type="text" name="numBastidor" class="form-control" size="6" maxlength="6"
+                            pattern="[0-9]{6}" required />
+                    </div>
+                </div>
+                <br />
+                <div class="row g-3">
+                    <h3>Datos del titular:</h3>
+                    <div class="col-md-2">
+                        <label class="form-label">Nombre:</label>
+                        <input type="text" name="nombre" class="form-control" required />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Apellidos:</label>
+                        <input type="text" class="form-control" name="apellidos" required />
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label">Domicilio:</label>
+                        <input type="text" name="domicilio" class="form-control" required />
+                    </div>
+                </div>
+                <br />
+                <div class="row g-4">
+                    <div class="col-auto">
+                        <label class="form-label" id="modificarDNI">DNI:</label>
+                        <input type="text" class="form-control" pattern="^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]$" size="9"
+                            maxlength="9" id="inputDNI" name="dni" required />
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">Correo electrónico:</label>
+                        <input type="email" class="form-control" name="mail" required />
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">Tlf:</label>
+                        <input type="text" name="telefono" class="form-control" size="9" maxlength="9"
+                            pattern="[0-9]{9}" required />
+                    </div>
+                    <div class="col-auto">
+                        <label class="form-label">Tipo de baja:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="baja" required />
+                            <label class="form-check-label"> Temporal </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="baja" required />
+                            <label class="form-check-label"> Definitiva </label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
