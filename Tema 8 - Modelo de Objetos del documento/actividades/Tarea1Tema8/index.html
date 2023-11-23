@@ -10,10 +10,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
-    <!-- https://source.unsplash.com/random/500x500/?car -->
-
     <style>
-
         body {
             height: 100vh;
             display: grid;
@@ -23,24 +20,92 @@
         header {
             grid-column: 2/12;
         }
-
     </style>
 
     <script>
 
-        class Cesta {
-            constructor() {
-                this.productos = [];
-            }
-        }
-
         class Producto {
-            constructor() {
 
+            #id;
+            #nombre;
+            #cantidad;
+            #precio;
+            #img;
+
+            constructor(id, nombre, precio, img){
+                this.#id = id;
+                this.#nombre = nombre;
+                this.#precio = precio;
+                this.#img = img;
             }
+
         }
 
-        var productos = [
+        class Cesta {
+            #productosCesta = [];
+
+            constructor() {
+
+                this.#productosCesta = [
+                    new Producto (1, 'Mochila', 30, 'https://source.unsplash.com/random/500x500/?bag'),                    
+                    new Producto (2, 'Portátil', 1200, 'https://source.unsplash.com/random/500x500/?laptop'),                    
+                    new Producto (3, 'Paraguas', 15, 'https://source.unsplash.com/random/500x500/?umbrella'),                    
+                    new Producto (4, 'Pantalón', 30, 'https://source.unsplash.com/random/500x500/?trousers'),                    
+                    new Producto (5, 'Zapatos', 45, 'https://source.unsplash.com/random/500x500/?shoe'),                  
+                    new Producto (6, 'Bicicleta', 240, 'https://source.unsplash.com/random/500x500/?bike')                  
+                ];
+                console.log("Producto Tienda Añadidos a la cesta!!")
+                this.#mostrarProductos();
+
+            }
+
+            #mostrarProductos() {
+                var lugarTabla = document.getElementById('idProductosTienda');
+
+                for (let i = 0; i < this.#productosCesta.length; i++) {
+
+                    var cardDiv = document.createElement("div");
+                    cardDiv.className = "card";
+                    cardDiv.style.width = "18rem";
+                    cardDiv.style.backgroundColor = "#4682B4" ;
+
+                    var imgCard = document.createElement("img");
+                    imgCard.setAttribute("img", this.#productosCesta[i].img); 
+                    imgCard.className = "card-img-top";
+                    
+                    var cardBodyDiv = document.createElement("div");
+                    cardBodyDiv.className = "card-body";
+
+                    var titleCard = document.createElement("h5");
+                    titleCard.className = "card-title";
+                    titleCard.textContent = ""; 
+
+                    
+                    var textElement = document.createElement("p");
+                    textElement.className = "card-text";
+                    textElement.textContent = "";
+
+                    var linkElement = document.createElement("a");
+                    linkElement.href = "#";
+                    linkElement.className = "btn btn-primary";
+                    linkElement.text =  "Añadir";
+
+                    cardBodyDiv.appendChild(titleCard);
+                    cardBodyDiv.appendChild(textElement);
+                    cardBodyDiv.appendChild(linkElement);
+
+                    cardDiv.appendChild(imgCard);
+                    cardDiv.appendChild(cardBodyDiv);
+                    lugarTabla.appendChild(cardDiv);
+
+                }
+
+            }
+
+        }
+
+
+        var productosTienda = [
             [1, 'Mochila', 30, 'https://source.unsplash.com/random/500x500/?bag'],
             [2, 'Portátil', 1200, 'https://source.unsplash.com/random/500x500/?laptop'],
             [3, 'Paraguas', 15, 'https://source.unsplash.com/random/500x500/?umbrella'],
@@ -72,7 +137,7 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col">
-                    <div id="idProducto"></div>
+                    <div id="idProductosTienda"></div>
                 </div>
                 <div class="col">
                     <h2 style="display: flex; text-align: start; margin-left: 10px;">
@@ -88,6 +153,9 @@
                                 <th scope="col">Subtotal</th>
                             </tr>
                         </thead>
+                        <tbody id="idDatosTabla">
+
+                        </tbody>
                     </table>
                 </div>
             </div>
