@@ -44,25 +44,17 @@
         class Cesta {
             #productosCesta;
 
-            constructor() {
+            constructor(productos) {
 
-
+                this.#productosCesta = productos
                 this.#mostrarProductos();
 
             }
 
             #mostrarProductos(event) {
 
-                this.#productosCesta = [
-                    new Producto(1, "Mochila", 30, "https://source.unsplash.com/random/500x500/?bag"),
-                    new Producto(2, "Portátil", 1200, "https://source.unsplash.com/random/500x500/?laptop"),
-                    new Producto(3, "Paraguas", 15, "https://source.unsplash.com/random/500x500/?umbrella"),
-                    new Producto(4, "Pantalón", 30, "https://source.unsplash.com/random/500x500/?trousers"),
-                    new Producto(5, "Zapatos", 45, "https://source.unsplash.com/random/500x500/?shoe"),
-                    new Producto(6, "Bicicleta", 240, "https://source.unsplash.com/random/500x500/?bike")
-                ];
-
                 console.log("Producto Tienda Añadidos a la cesta!!")
+
 
                 var lugarTabla = document.getElementById("idProductosTienda");
 
@@ -70,48 +62,78 @@
 
                     console.log("Entramos en el bucle para impresión tabla");
 
+                    /**
+                     * 
+                     * Creamos los elementos de las tarjetas
+                     * 
+                    */
+
                     let divCard = document.createElement("div");
-
                     let imgCard = document.createElement("img");
-
                     let div2Card = document.createElement("div");
-
                     let h5Card = document.createElement("h5");
-
                     let pPrecio = document.createElement("p");
-
+                    let div3Card = document.createElement("div");
+                    let inputCantidad = document.createElement("input");
                     let buttonCard = document.createElement("a");
 
+                    /*
+                     *
+                     * Damos clases a cada Elemento.  
+                     * 
+                    */
+
+                    divCard.style.paddingBottom = "10px";
+
                     divCard.className = "card";
-
                     imgCard.className = "card-img-top";
-
                     div2Card.className = "card-body";
-
                     h5Card.className = "card-title";
-
                     pPrecio.className = "card-text";
-
                     buttonCard.className = "btn btn-primary";
+
+                    /**
+                     * 
+                     * Damos valor a los elementos de la tarjeta
+                     * 
+                    */
+
+                    imgCard.src = this.#productosCesta[i].img;
+                    h5Card.innerText = this.#productosCesta[i].nombre;
+                    pPrecio.innerText = this.#productosCesta[i].precio;
+                    buttonCard.innerText = "Añadir";
+
+                    div3Card.appendChild(inputCantidad);
+                    //-----------------------------------
+                    div2Card.appendChild(h5Card);
+                    div2Card.appendChild(pPrecio);
+                    div2Card.appendChild(buttonCard);
+                    div2Card.appendChild(div3Card);
+                    //-----------------------------------
+                    divCard.appendChild(imgCard);
+                    divCard.appendChild(div2Card);
+                    //-----------------------------------
+                    lugarTabla.appendChild(divCard);
 
                 }
 
             }
 
+
         }
 
 
-        var productosTienda = [
-            [1, "Mochila", 30, "https://source.unsplash.com/random/500x500/?bag"],
-            [2, "Portátil", 1200, "https://source.unsplash.com/random/500x500/?laptop"],
-            [3, "Paraguas", 15, "https://source.unsplash.com/random/500x500/?umbrella"],
-            [4, "Pantalón", 30, "https://source.unsplash.com/random/500x500/?trousers"],
-            [5, "Zapatos", 45, "https://source.unsplash.com/random/500x500/?shoe"],
-            [6, "Bicicleta", 240, "https://source.unsplash.com/random/500x500/?bike"]
-        ]
+        var productosCesta = [
+            {id: 1, nombre: "Mochila", precio: 30, img:"https://source.unsplash.com/random/500x500/?bag"},
+            {id: 2, nombre: "Portátil", precio: 1200, img:"https://source.unsplash.com/random/500x500/?laptop"},
+            {id: 3, nombre: "Paraguas", precio: 15, img:"https://source.unsplash.com/random/500x500/?umbrella"},
+            {id: 4, nombre: "Pantalón", precio: 30, img:"https://source.unsplash.com/random/500x500/?trousers"},
+            {id: 5, nombre: "Zapatos", precio: 45, img:"https://source.unsplash.com/random/500x500/?shoe"},
+            {id: 6, nombre: "Bicicleta", precio: 240, img:"https://source.unsplash.com/random/500x500/?bike"}
+        ];
 
         window.onload = function () {
-            new Cesta;
+            new Cesta(productosCesta);
         }
 
     </script>
