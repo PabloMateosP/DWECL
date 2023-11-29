@@ -46,6 +46,13 @@
 
             constructor() {
 
+
+                this.#mostrarProductos();
+
+            }
+
+            #mostrarProductos(event) {
+
                 this.#productosCesta = [
                     new Producto(1, "Mochila", 30, "https://source.unsplash.com/random/500x500/?bag"),
                     new Producto(2, "Portátil", 1200, "https://source.unsplash.com/random/500x500/?laptop"),
@@ -54,48 +61,38 @@
                     new Producto(5, "Zapatos", 45, "https://source.unsplash.com/random/500x500/?shoe"),
                     new Producto(6, "Bicicleta", 240, "https://source.unsplash.com/random/500x500/?bike")
                 ];
+
                 console.log("Producto Tienda Añadidos a la cesta!!")
-                this.#mostrarProductos();
 
-            }
-
-            #mostrarProductos() {
                 var lugarTabla = document.getElementById("idProductosTienda");
 
                 for (let i = 0; i < this.#productosCesta.length; i++) {
 
-                    var cardDiv = document.createElement("div");
-                    cardDiv.className = "card";
-                    cardDiv.style.width = "18rem";
-                    cardDiv.style.backgroundColor = "#4682B4";
+                    console.log("Entramos en el bucle para impresión tabla");
 
-                    var imgCard = document.createElement("img");
-                    imgCard.src = this.#productosCesta[i].img;  // Cambiado para establecer la fuente de la imagen
+                    let divCard = document.createElement("div");
+
+                    let imgCard = document.createElement("img");
+
+                    let div2Card = document.createElement("div");
+
+                    let h5Card = document.createElement("h5");
+
+                    let pPrecio = document.createElement("p");
+
+                    let buttonCard = document.createElement("a");
+
+                    divCard.className = "card";
+
                     imgCard.className = "card-img-top";
 
-                    var cardBodyDiv = document.createElement("div");
-                    cardBodyDiv.className = "card-body";
+                    div2Card.className = "card-body";
 
-                    var titleCard = document.createElement("h5");
-                    titleCard.className = "card-title";
-                    titleCard.textContent = this.#productosCesta[i].nombre;
+                    h5Card.className = "card-title";
 
-                    var textElement = document.createElement("p");
-                    textElement.className = "card-text";
-                    textElement.textContent = "Precio: " + this.#productosCesta[i].precio + "€";
+                    pPrecio.className = "card-text";
 
-                    var linkElement = document.createElement("a");
-                    linkElement.href = "#";
-                    linkElement.className = "btn btn-primary";
-                    linkElement.text = "Añadir";
-
-                    cardBodyDiv.appendChild(titleCard);
-                    cardBodyDiv.appendChild(textElement);
-                    cardBodyDiv.appendChild(linkElement);
-
-                    cardDiv.appendChild(imgCard);
-                    cardDiv.appendChild(cardBodyDiv);
-                    lugarTabla.appendChild(cardDiv);
+                    buttonCard.className = "btn btn-primary";
 
                 }
 
