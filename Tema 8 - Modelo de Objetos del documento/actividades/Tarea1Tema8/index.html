@@ -55,8 +55,10 @@
 
                 console.log("Producto Tienda Añadidos a la cesta!!")
 
-
                 var lugarTabla = document.getElementById("idProductosTienda");
+                let divOrganizacion = document.createElement("div");
+                divOrganizacion.className = "card-group";
+                divOrganizacion.style = "display: grid; grid-template-columns: 1fr 1fr 1fr";
 
                 for (let i = 0; i < this.#productosCesta.length; i++) {
 
@@ -68,6 +70,7 @@
                      * 
                     */
 
+                    
                     let divCard = document.createElement("div");
                     let imgCard = document.createElement("img");
                     let div2Card = document.createElement("div");
@@ -83,9 +86,8 @@
                      * 
                     */
 
-                    divCard.style.paddingBottom = "10px";
-
-                    divCard.className = "card";
+                    
+                    divCard.className = "card border-primary mb-6";
                     imgCard.className = "card-img-top";
                     div2Card.className = "card-body";
                     h5Card.className = "card-title";
@@ -98,10 +100,23 @@
                      * 
                     */
 
+                    divCard.style = "grid-column: 1";
                     imgCard.src = this.#productosCesta[i].img;
                     h5Card.innerText = this.#productosCesta[i].nombre;
+                    h5Card.style = "font-size: 0.9em; border: 2px solid black; width: 100%";
                     pPrecio.innerText = this.#productosCesta[i].precio;
+                    pPrecio.style =  "color: black; border: 2px solid black";
+                    inputCantidad.style = "width: 50%";
+                    buttonCard.style = "margin-bottom: 10px";
                     buttonCard.innerText = "Añadir";
+
+                    if (i == 1) {
+                        divCard.style = "grid-column: 2";
+                    } else if (i == 2){
+                        divCard.style = "grid-column: 3";
+                    } else if (i == ) {
+
+                    }
 
                     div3Card.appendChild(inputCantidad);
                     //-----------------------------------
@@ -113,7 +128,9 @@
                     divCard.appendChild(imgCard);
                     divCard.appendChild(div2Card);
                     //-----------------------------------
-                    lugarTabla.appendChild(divCard);
+                    divOrganizacion.appendChild(divCard);
+                    //-----------------------------------
+                    lugarTabla.appendChild(divOrganizacion);
 
                 }
 
@@ -124,12 +141,12 @@
 
 
         var productosCesta = [
-            {id: 1, nombre: "Mochila", precio: 30, img:"https://source.unsplash.com/random/500x500/?bag"},
-            {id: 2, nombre: "Portátil", precio: 1200, img:"https://source.unsplash.com/random/500x500/?laptop"},
-            {id: 3, nombre: "Paraguas", precio: 15, img:"https://source.unsplash.com/random/500x500/?umbrella"},
-            {id: 4, nombre: "Pantalón", precio: 30, img:"https://source.unsplash.com/random/500x500/?trousers"},
-            {id: 5, nombre: "Zapatos", precio: 45, img:"https://source.unsplash.com/random/500x500/?shoe"},
-            {id: 6, nombre: "Bicicleta", precio: 240, img:"https://source.unsplash.com/random/500x500/?bike"}
+            { id: 1, nombre: "Mochila", precio: 30, img: "https://source.unsplash.com/random/500x500/?bag" },
+            { id: 2, nombre: "Portátil", precio: 1200, img: "https://source.unsplash.com/random/500x500/?laptop" },
+            { id: 3, nombre: "Paraguas", precio: 15, img: "https://source.unsplash.com/random/500x500/?umbrella" },
+            { id: 4, nombre: "Pantalón", precio: 30, img: "https://source.unsplash.com/random/500x500/?trousers" },
+            { id: 5, nombre: "Zapatos", precio: 45, img: "https://source.unsplash.com/random/500x500/?shoe" },
+            { id: 6, nombre: "Bicicleta", precio: 240, img: "https://source.unsplash.com/random/500x500/?bike" }
         ];
 
         window.onload = function () {
