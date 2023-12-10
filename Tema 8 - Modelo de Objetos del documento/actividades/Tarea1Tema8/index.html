@@ -44,6 +44,8 @@
         class Cesta {
             #productosCesta;
 
+            #carrito;
+
             constructor(productos) {
 
                 this.#productosCesta = productos
@@ -70,7 +72,7 @@
                      * 
                     */
 
-                    
+
                     let divCard = document.createElement("div");
                     let imgCard = document.createElement("img");
                     let div2Card = document.createElement("div");
@@ -86,7 +88,7 @@
                      * 
                     */
 
-                    
+
                     divCard.className = "card border-primary mb-6";
                     imgCard.className = "card-img-top";
                     div2Card.className = "card-body";
@@ -105,18 +107,24 @@
                     h5Card.innerText = this.#productosCesta[i].nombre;
                     h5Card.style = "font-size: 0.9em; border: 2px solid black; width: 100%";
                     pPrecio.innerText = this.#productosCesta[i].precio;
-                    pPrecio.style =  "color: black; border: 2px solid black";
+                    pPrecio.style = "color: black; border: 2px solid black";
                     inputCantidad.style = "width: 50%";
+                    inputCantidad.type = "number";
+                    inputCantidad.value = 1;
                     buttonCard.style = "margin-bottom: 10px";
                     buttonCard.innerText = "Añadir";
 
                     if (i == 1) {
                         divCard.style = "grid-column: 2";
-                    } else if (i == 2){
+                    } else if (i == 2) {
                         divCard.style = "grid-column: 3";
                     } else if (i == 3) {
                         divCard.style = "grid-column: 1/2";
                         //TODO: falta hacer las tres columnas de la segunda fila
+                    } else if (i == 4) {
+                        divCard.style = "grid-column: 2/3";
+                    } else if (i == 5) {
+                        divCard.style = "grid-column: 3/4";
                     }
 
                     div3Card.appendChild(inputCantidad);
@@ -133,9 +141,41 @@
                     //-----------------------------------
                     lugarTabla.appendChild(divOrganizacion);
 
+                    buttonCard.addEventListener("click", () => {
+                        this.#agregarAlCarrito(this.#productosCesta[i], inputCantidad.value);
+                    });
+
                 }
 
             }
+
+            #agregarAlCarrito(producto, cantidad) {
+
+                    const tbody = document.getElementById("idDatosTabla");
+
+                    let fila = document.createElement("tr");
+
+                    let celdaCod = document.createElement("td");
+                    let celdaNombre = document.createElement("td");
+                    let celdaCantidad = document.createElement("td");
+                    let celdaPrecio = document.createElement("td");
+                    let celdaSubtotal = document.createElement("td");
+
+                    celdaCod.innerText = producto.id;
+                    celdaNombre.innerText = producto.nombre;
+                    celdaCantidad.innerText = cantidad;
+                    celdaPrecio.innerText = producto.precio;
+                    celdaSubtotal.innerText = producto.precio * cantidad;
+                    
+                    fila.appendChild(celdaCod);
+                    fila.appendChild(celdaNombre);
+                    fila.appendChild(celdaCantidad);
+                    fila.appendChild(celdaPrecio);
+                    fila.appendChild(celdaSubtotal);
+
+                    tbody.appendChild(fila);
+                    
+                }
 
 
         }
@@ -193,6 +233,14 @@
 
                         </tbody>
                     </table>
+                    <br>
+                    <hr>
+                    <p>
+                        Total: <span id="idTotal">0€</span></p>
+                    </p>
+                    <p>
+                        Total + IVA(21%): <span id="idTotalIva">0.00</span>
+                    </p>
                 </div>
             </div>
         </div>
