@@ -37,18 +37,17 @@
                 this.#nombre = nombre;
                 this.#precio = precio;
                 this.#img = img;
+                this.#cantidad = 1;
             }
 
         }
 
-        class Cesta {
-            #productosCesta;
-
-            #carrito;
+        class TiendaProductos {
+            #productosTienda;
 
             constructor(productos) {
 
-                this.#productosCesta = productos
+                this.#productosTienda = productos
                 this.#mostrarProductos();
 
             }
@@ -62,7 +61,7 @@
                 divOrganizacion.className = "card-group";
                 divOrganizacion.style = "display: grid; grid-template-columns: 1fr 1fr 1fr";
 
-                for (let i = 0; i < this.#productosCesta.length; i++) {
+                for (let i = 0; i < this.#productosTienda.length; i++) {
 
                     console.log("Entramos en el bucle para impresión tabla");
 
@@ -103,10 +102,10 @@
                     */
 
                     divCard.style = "grid-column: 1";
-                    imgCard.src = this.#productosCesta[i].img;
-                    h5Card.innerText = this.#productosCesta[i].nombre;
+                    imgCard.src = this.#productosTienda[i].img;
+                    h5Card.innerText = this.#productosTienda[i].nombre;
                     h5Card.style = "font-size: 0.9em; border: 2px solid black; width: 100%";
-                    pPrecio.innerText = this.#productosCesta[i].precio;
+                    pPrecio.innerText = this.#productosTienda[i].precio + "€";
                     pPrecio.style = "color: black; border: 2px solid black";
                     inputCantidad.style = "width: 50%";
                     inputCantidad.type = "number";
@@ -120,7 +119,6 @@
                         divCard.style = "grid-column: 3";
                     } else if (i == 3) {
                         divCard.style = "grid-column: 1/2";
-                        //TODO: falta hacer las tres columnas de la segunda fila
                     } else if (i == 4) {
                         divCard.style = "grid-column: 2/3";
                     } else if (i == 5) {
@@ -141,43 +139,90 @@
                     //-----------------------------------
                     lugarTabla.appendChild(divOrganizacion);
 
-                    buttonCard.addEventListener("click", () => {
-                        this.#agregarAlCarrito(this.#productosCesta[i], inputCantidad.value);
+                    inputCantidad.addEventListener("input", (event) => {
+                        this.#productosTienda[i].cantidad = parseInt(event.target.value);
                     });
+
+                    buttonCard.addEventListener("click", () => {
+                        if (this.#productosTienda[i].cantidad == undefined) {
+                            console.log("Valor de la cantidad nulo");
+                            this.#productosTienda[i].cantidad = 1;
+                        }
+                        var cesta = new Cesta(this.#productosTienda, this.#productosTienda[i].id, this.#productosTienda[i].cantidad);
+                    });
+
+                    // Forma de buscar el id del input y el dato 
+                    // let cant = document.querySelector("input[data-iduni='"idBot"']");
 
                 }
 
             }
+        }
 
-            #agregarAlCarrito(producto, cantidad) {
+        class Cesta {
+            #productosCesta;
+            #idProductoSeleccionado;
+            #cantidadProducto;
 
-                    const tbody = document.getElementById("idDatosTabla");
+            constructor(productos, id, cantidad) {
 
-                    let fila = document.createElement("tr");
+                this.#productosCesta = productos;
+                this.#idProductoSeleccionado = id;
+                this.#cantidadProducto = cantidad;
 
-                    let celdaCod = document.createElement("td");
-                    let celdaNombre = document.createElement("td");
-                    let celdaCantidad = document.createElement("td");
-                    let celdaPrecio = document.createElement("td");
-                    let celdaSubtotal = document.createElement("td");
+                this.#agregarAlCarrito();
 
-                    celdaCod.innerText = producto.id;
-                    celdaNombre.innerText = producto.nombre;
-                    celdaCantidad.innerText = cantidad;
-                    celdaPrecio.innerText = producto.precio;
-                    celdaSubtotal.innerText = producto.precio * cantidad;
-                    
-                    fila.appendChild(celdaCod);
-                    fila.appendChild(celdaNombre);
-                    fila.appendChild(celdaCantidad);
-                    fila.appendChild(celdaPrecio);
-                    fila.appendChild(celdaSubtotal);
+            }
 
-                    tbody.appendChild(fila);
-                    
+            #agregarAlCarrito() {
+
+                for (let i = 0; i < this.#productosCesta.length; i++) {
+                    console.log("Leémos productos Cesta");
+                    console.log(this.#idProductoSeleccionado);
+                    console.log(this.#productosCesta[i].id);
+
+                    if (this.#productosCesta[i].id == this.#idProductoSeleccionado) {
+                        console.log("Id coincide con id producto");
+
+                        const tbody = document.getElementById("idDatosTabla");
+
+                        let fila = document.createElement("tr");
+
+                        let celdaCod = document.createElement("td");
+                        let celdaNombre = document.createElement("td");
+                        let celdaCantidad = document.createElement("td");
+                        let celdaPrecio = document.createElement("td");
+                        let celdaSubtotal = document.createElement("td");
+                        let celdaEliminar = document.createElement("td");
+                        let botonEliminar = document.createElement("a");
+                        let textoEliminar = document.createElement("p");
+
+                        textoEliminar.className = "bi bi-eraser-fill";
+                        botonEliminar.className = "btn btn-danger";
+
+                        celdaCod.innerText = this.#productosCesta[i].id;
+                        celdaNombre.innerText = this.#productosCesta[i].nombre;
+                        celdaCantidad.innerText = this.#cantidadProducto;
+                        celdaPrecio.innerText = this.#productosCesta[i].precio;
+                        celdaSubtotal.innerText = this.#productosCesta[i].precio * this.#cantidadProducto;
+
+                        botonEliminar.appendChild(textoEliminar);
+                        celdaEliminar.appendChild(botonEliminar);
+
+                        fila.appendChild(celdaCod);
+                        fila.appendChild(celdaNombre);
+                        fila.appendChild(celdaCantidad);
+                        fila.appendChild(celdaPrecio);
+                        fila.appendChild(celdaSubtotal);
+                        fila.appendChild(celdaEliminar);
+
+                        tbody.appendChild(fila);
+
+                    } else {
+                        console.log("No se ha encontrado el Id en la cesta")
+                    }
                 }
-
-
+            }
         }
 
 
@@ -191,7 +236,7 @@
         ];
 
         window.onload = function () {
-            new Cesta(productosCesta);
+            new TiendaProductos(productosCesta);
         }
 
     </script>
