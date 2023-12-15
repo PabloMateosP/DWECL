@@ -175,11 +175,13 @@
             }
 
             #agregarAlCarrito() {
+                var total = 0;
+                var subtotalProducto;
 
                 for (let i = 0; i < this.#productosCesta.length; i++) {
                     console.log("Leémos productos Cesta");
-                    console.log(this.#idProductoSeleccionado);
-                    console.log(this.#productosCesta[i].id);
+                    // console.log(this.#idProductoSeleccionado);
+                    // console.log(this.#productosCesta[i].id);
 
                     if (this.#productosCesta[i].id == this.#idProductoSeleccionado) {
                         console.log("Id coincide con id producto");
@@ -204,7 +206,19 @@
                         celdaNombre.innerText = this.#productosCesta[i].nombre;
                         celdaCantidad.innerText = this.#cantidadProducto;
                         celdaPrecio.innerText = this.#productosCesta[i].precio;
-                        celdaSubtotal.innerText = this.#productosCesta[i].precio * this.#cantidadProducto;
+
+                        // ----------------------------------------------------------------- //
+                        // Variable declarada para guardar el valor subtotal de cada producto 
+                        // para el cálculo posterior del total
+                        subtotalProducto = this.#productosCesta[i].precio * this.#cantidadProducto;
+                        console.log("Valor del subtotal " + subtotalProducto);
+                        // ----------------------------------------------------------------- //
+                
+                        total += subtotalProducto;
+                        
+                        console.log("Valor del total: " + total);
+
+                        celdaSubtotal.innerText = subtotalProducto
 
                         botonEliminar.appendChild(textoEliminar);
                         celdaEliminar.appendChild(botonEliminar);
@@ -218,10 +232,21 @@
 
                         tbody.appendChild(fila);
 
+                        
+
                     } else {
                         console.log("No se ha encontrado el Id en la cesta")
                     }
+
                 }
+
+                let totalP = document.getElementById('idTotal');
+                let totalIVA = document.getElementById('idTotalIva');
+
+                totalP.innerText = total;
+                totalIVA.innerText = (total * 1.21);
+
+
             }
         }
 
