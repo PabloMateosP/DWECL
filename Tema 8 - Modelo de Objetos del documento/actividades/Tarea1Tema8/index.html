@@ -47,7 +47,7 @@
 
             constructor(productos) {
 
-                this.#productosTienda = productos
+                this.#productosTienda = productos;
                 this.#mostrarProductos();
 
             }
@@ -61,14 +61,14 @@
                 divOrganizacion.className = "card-group";
                 divOrganizacion.style = "display: grid; grid-template-columns: 1fr 1fr 1fr";
 
+                // Recorremos productos en tienda para construcción
                 for (let i = 0; i < this.#productosTienda.length; i++) {
 
-                    console.log("Entramos en el bucle para impresión tabla");
+                    // Comprobación funcionamiento 
+                    // console.log("Entramos en el bucle para impresión tabla");
 
                     /**
-                     * 
                      * Creamos los elementos de las tarjetas
-                     * 
                     */
 
 
@@ -81,10 +81,9 @@
                     let inputCantidad = document.createElement("input");
                     let buttonCard = document.createElement("a");
 
+                    
                     /*
-                     *
                      * Damos clases a cada Elemento.  
-                     * 
                     */
 
 
@@ -95,11 +94,11 @@
                     pPrecio.className = "card-text";
                     buttonCard.className = "btn btn-primary";
 
+
                     /**
-                     * 
                      * Damos valor a los elementos de la tarjeta
-                     * 
                     */
+
 
                     divCard.style = "grid-column: 1";
                     imgCard.src = this.#productosTienda[i].img;
@@ -113,6 +112,9 @@
                     buttonCard.style = "margin-bottom: 10px";
                     buttonCard.innerText = "Añadir";
 
+
+                    // Sentencia para darle el estilo que buscamos a la página web
+                    //---------------------------------
                     if (i == 1) {
                         divCard.style = "grid-column: 2";
                     } else if (i == 2) {
@@ -124,7 +126,11 @@
                     } else if (i == 5) {
                         divCard.style = "grid-column: 3/4";
                     }
+                    //----------------------------------
 
+
+                    // Añadimos las nuevas etiquetas al html
+                    //-----------------------------------
                     div3Card.appendChild(inputCantidad);
                     //-----------------------------------
                     div2Card.appendChild(h5Card);
@@ -138,24 +144,30 @@
                     divOrganizacion.appendChild(divCard);
                     //-----------------------------------
                     lugarTabla.appendChild(divOrganizacion);
+                    //-----------------------------------
 
+                    var cantidad;
+
+                    // Interceptamos el dato introducido en el input 
                     inputCantidad.addEventListener("input", (event) => {
                         this.#productosTienda[i].cantidad = parseInt(event.target.value);
+                        var cantidad = this.#productosTienda[i].cantidad;
+                        localStorage.setItem("cantidad", cantidad);
                     });
 
+                    // Event Listener para lanzar construcción tabla tras pulsar añadir
                     buttonCard.addEventListener("click", () => {
-                        if (this.#productosTienda[i].cantidad == undefined) {
+                        // Creamos una cláusula para que si el input no tiene un valor definido, este 
+                        // tome el valor como 1
+                        if (cantidad == undefined) {
                             console.log("Valor de la cantidad nulo");
-                            this.#productosTienda[i].cantidad = 1;
+                            localStorage.setItem("cantidad", 1);
                         }
-                        var cesta = new Cesta(this.#productosTienda, this.#productosTienda[i].id, this.#productosTienda[i].cantidad);
+
+                        // Creámos una nueva cesta mediante el constructor pasándole los productos, el id y la cantidad
+                        var cesta = new Cesta(this.#productosTienda, this.#productosTienda[i].id, localStorage.getItem("cantidad"));
                     });
-
-                    // Forma de buscar el id del input y el dato 
-                    // let cant = document.querySelector("input[data-iduni='"idBot"']");
-
                 }
-
             }
         }
 
@@ -178,15 +190,20 @@
                 var total = 0;
                 var subtotalProducto;
 
+
+                const tbody = document.getElementById("idDatosTabla");
+
+
                 for (let i = 0; i < this.#productosCesta.length; i++) {
                     console.log("Leémos productos Cesta");
+
+                    // Pruebas para consultar funcionamiento
                     // console.log(this.#idProductoSeleccionado);
                     // console.log(this.#productosCesta[i].id);
 
                     if (this.#productosCesta[i].id == this.#idProductoSeleccionado) {
                         console.log("Id coincide con id producto");
 
-                        const tbody = document.getElementById("idDatosTabla");
 
                         let fila = document.createElement("tr");
 
@@ -231,8 +248,6 @@
                         fila.appendChild(celdaEliminar);
 
                         tbody.appendChild(fila);
-
-                        
 
                     } else {
                         console.log("No se ha encontrado el Id en la cesta")
