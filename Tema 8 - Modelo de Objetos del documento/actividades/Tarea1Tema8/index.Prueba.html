@@ -81,7 +81,7 @@
                     let inputCantidad = document.createElement("input");
                     let buttonCard = document.createElement("a");
 
-                    
+
                     /*
                      * Damos clases a cada Elemento.  
                     */
@@ -148,12 +148,13 @@
 
                     var cantidad;
                     var id;
+                    var carrito;
 
                     // Interceptamos el dato introducido en el input 
                     inputCantidad.addEventListener("input", (event) => {
                         this.#productosTienda[i].cantidad = parseInt(event.target.value);
                         cantidad = this.#productosTienda[i].cantidad;
-                        localStorage.setItem("cantidad", cantidad);
+
                     });
 
                     // Event Listener para lanzar construcción tabla tras pulsar añadir
@@ -162,14 +163,16 @@
                         // tome el valor como 1
                         if (cantidad == undefined) {
                             console.log("Valor de la cantidad nulo");
-                            localStorage.setItem("cantidad", 1);
+
+                            cantidad = 1;
                         }
 
                         id = this.#productosTienda[i].id;
-                        localStorage.setItem("id", id);
+
+                        carrito = [{ id: id, cantidad: cantidad }];
 
                         // Creámos una nueva cesta mediante el constructor pasándole los productos, el id y la cantidad
-                        var cesta = new Cesta(this.#productosTienda, localStorage.getItem("id"), localStorage.getItem("cantidad"));
+                        var cesta = new Cesta(this.#productosTienda, carrito);
                     });
                 }
             }
@@ -179,21 +182,55 @@
             #productosCesta;
             #idProductoSeleccionado;
             #cantidadProducto;
-            
+            #productosAñadidos;
 
-            constructor(productos, id, cantidad) {
+
+            constructor(productos, producto) {
 
                 this.#productosCesta = productos;
-                this.#idProductoSeleccionado = id;
-                this.#cantidadProducto = cantidad;
+                this.#idProductoSeleccionado = producto.id;
+                this.#cantidadProducto = producto.cantidad;
+
+                this.#buscarProductoSeleccionado();
+
+            }
+
+            #guardarProducto(producto) {
+                var productos = JSON.parse(localStorage.getItem('carrito')) || [];
+
+                var productoExistente = productos.find(p => p.id === producto.id);
+
+                if (productoExistente) {
+                    // Si el producto ya existe, actualizar la cantidad
+                    productoExistente.cantidad = producto.cantidad;
+                } else {
+                    // Si el producto no existe, añadirlo a la lista
+                    productos.push(producto);
+                }
+
+                // Guardar la lista actualizada de productos en el localStorage
+                localStorage.setItem('carrito', JSON.stringify(productos));
 
                 this.#agregarAlCarrito();
+            }
+
+            #buscarProductoSeleccionado() {
+                for (let i = 0; i < this.#productosCesta.length; i++) {
+                    if (this.#productosCesta[i].id == this.#idProductoSeleccionado) {
+                        console.log("Id coincide con id producto");
+                        this.#productosAñadidos = this.#productosCesta[i];
+                    } else {
+                        console.log("Id no encontrado");
+                    }
+                }
+
+                this.#guardarProducto();
+            }
+
+            #renderizarTabla() {
 
             }
 
-            #renderizarCesta(){
-                
-            }
 
             #agregarAlCarrito() {
                 var total = 0;
@@ -201,75 +238,53 @@
 
                 const tbody = document.getElementById("idDatosTabla");
 
+                let fila = document.createElement("tr");
 
-                for (let i = 0; i < this.#productosCesta.length; i++) {
-                    console.log("Leémos productos Cesta");
+                let celdaCod = document.createElement("td");
+                let celdaNombre = document.createElement("td");
+                let celdaCantidad = document.createElement("td");
+                let celdaPrecio = document.createElement("td");
+                let celdaSubtotal = document.createElement("td");
+                let celdaEliminar = document.createElement("td");
+                let botonEliminar = document.createElement("a");
+                let textoEliminar = document.createElement("p");
 
-                    // Pruebas para consultar funcionamiento
-                    // console.log(this.#idProductoSeleccionado);
-                    // console.log(this.#productosCesta[i].id);
+                textoEliminar.className = "bi bi-eraser-fill";
+                botonEliminar.className = "btn btn-danger";
 
-                    if (this.#productosCesta[i].id == this.#idProductoSeleccionado) {
-                        console.log("Id coincide con id producto");
+                celdaCod.innerText = this.#productosAñadidos.id;
+                celdaNombre.innerText = this.#productosAñadidos.nombre;
+                celdaCantidad.innerText = this.#cantidadProducto;
+                celdaPrecio.innerText = this.#productosAñadidos.precio;
 
+                // ----------------------------------------------------------------- //
+                // Variable declarada para guardar el valor subtotal de cada producto 
+                // para el cálculo posterior del total
+                subtotalProducto = this.#productosAñadidos.precio * this.#cantidadProducto;
+                console.log("Valor del subtotal " + subtotalProducto);
+                // ----------------------------------------------------------------- //
 
-                        let fila = document.createElement("tr");
+                total += subtotalProducto;
 
-                        let celdaCod = document.createElement("td");
-                        let celdaNombre = document.createElement("td");
-                        let celdaCantidad = document.createElement("td");
-                        let celdaPrecio = document.createElement("td");
-                        let celdaSubtotal = document.createElement("td");
-                        let celdaEliminar = document.createElement("td");
-                        let botonEliminar = document.createElement("a");
-                        let textoEliminar = document.createElement("p");
+                celdaSubtotal.innerText = subtotalProducto
 
-                        textoEliminar.className = "bi bi-eraser-fill";
-                        botonEliminar.className = "btn btn-danger";
+                botonEliminar.appendChild(textoEliminar);
+                celdaEliminar.appendChild(botonEliminar);
 
-                        celdaCod.innerText = this.#productosCesta[i].id;
-                        celdaNombre.innerText = this.#productosCesta[i].nombre;
-                        celdaCantidad.innerText = this.#cantidadProducto;
-                        celdaPrecio.innerText = this.#productosCesta[i].precio;
+                fila.appendChild(celdaCod);
+                fila.appendChild(celdaNombre);
+                fila.appendChild(celdaCantidad);
+                fila.appendChild(celdaPrecio);
+                fila.appendChild(celdaSubtotal);
+                fila.appendChild(celdaEliminar);
 
-                        // ----------------------------------------------------------------- //
-                        // Variable declarada para guardar el valor subtotal de cada producto 
-                        // para el cálculo posterior del total
-                        subtotalProducto = this.#productosCesta[i].precio * this.#cantidadProducto;
-                        console.log("Valor del subtotal " + subtotalProducto);
-                        // ----------------------------------------------------------------- //
-                
-                        total += subtotalProducto;
-                        
-                        console.log("Valor del total: " + total);
+                tbody.appendChild(fila);
 
-                        celdaSubtotal.innerText = subtotalProducto
+                let totalP = document.getElementById('idTotal');
+                let totalIVA = document.getElementById('idTotalIva');
 
-                        botonEliminar.appendChild(textoEliminar);
-                        celdaEliminar.appendChild(botonEliminar);
-
-                        fila.appendChild(celdaCod);
-                        fila.appendChild(celdaNombre);
-                        fila.appendChild(celdaCantidad);
-                        fila.appendChild(celdaPrecio);
-                        fila.appendChild(celdaSubtotal);
-                        fila.appendChild(celdaEliminar);
-
-                        tbody.appendChild(fila);
-
-                    } else {
-                        console.log("No se ha encontrado el Id en la cesta")
-                    }
-
-                }
-
-                // let totalP = document.getElementById('idTotal');
-                // let totalIVA = document.getElementById('idTotalIva');
-
-                // totalP.innerText = total;
-                // totalIVA.innerText = (total * 1.21);
-
-
+                totalP.innerText = total;
+                totalIVA.innerText = (total * 1.21);
 
             }
         }
