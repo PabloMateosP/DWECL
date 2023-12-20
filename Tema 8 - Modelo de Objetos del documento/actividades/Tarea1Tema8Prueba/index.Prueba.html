@@ -44,15 +44,37 @@
 
         class TiendaProductos {
             #productosTienda;
+            #productosCestaSave;
 
             constructor(productos) {
 
                 this.#productosTienda = productos;
-                this.#mostrarProductos();
+
+                this.#renderizarCestaSave();
 
             }
 
+            // -----------------------------------------------------------------------------
+            #renderizarCestaSave() {
+                console.log("Renderizamos cesta")
+                this.#productosCestaSave = JSON.parse(localStorage.getItem('carrito'))
+
+                if (this.#productosCestaSave) {
+                    console.log("Creamos Cesta Guardada")
+                    var cestaSave = new Cesta(this.#productosTienda, this.#productosCestaSave);
+                    cestaSave.agregarAlCarrito();
+                }
+
+                this.#mostrarProductos();
+            }
+            // -----------------------------------------------------------------------------
+
+
+            // -----------------------------------------------------------------------------
             #mostrarProductos() {
+                var cantidad;
+                var id;
+                var carrito;
 
                 console.log("Producto Tienda Añadidos a la cesta!!")
 
@@ -71,7 +93,6 @@
                      * Creamos los elementos de las tarjetas
                     */
 
-
                     let divCard = document.createElement("div");
                     let imgCard = document.createElement("img");
                     let div2Card = document.createElement("div");
@@ -81,11 +102,9 @@
                     let inputCantidad = document.createElement("input");
                     let buttonCard = document.createElement("a");
 
-
                     /*
                      * Damos clases a cada Elemento.  
                     */
-
 
                     divCard.className = "card border-primary mb-6";
                     imgCard.className = "card-img-top";
@@ -94,11 +113,9 @@
                     pPrecio.className = "card-text";
                     buttonCard.className = "btn btn-primary";
 
-
                     /**
                      * Damos valor a los elementos de la tarjeta
                     */
-
 
                     divCard.style = "grid-column: 1";
                     imgCard.src = this.#productosTienda[i].img;
@@ -111,7 +128,6 @@
                     inputCantidad.value = 1;
                     buttonCard.style = "margin-bottom: 10px";
                     buttonCard.innerText = "Añadir";
-
 
                     // Sentencia para darle el estilo que buscamos a la página web
                     //---------------------------------
@@ -127,7 +143,6 @@
                         divCard.style = "grid-column: 3/4";
                     }
                     //----------------------------------
-
 
                     // Añadimos las nuevas etiquetas al html
                     //-----------------------------------
@@ -146,9 +161,6 @@
                     lugarTabla.appendChild(divOrganizacion);
                     //-----------------------------------
 
-                    var cantidad;
-                    var id;
-                    var carrito;
 
                     // Interceptamos el dato introducido en el input 
                     inputCantidad.addEventListener("input", (event) => {
@@ -163,19 +175,20 @@
                         // tome el valor como 1
                         if (cantidad == undefined) {
                             console.log("Valor de la cantidad nulo");
-
                             cantidad = 1;
                         }
 
                         id = this.#productosTienda[i].id;
 
-                        carrito = [{ id: id, cantidad: cantidad }];
+                        carrito = { id: id, cantidad: cantidad };
 
                         // Creámos una nueva cesta mediante el constructor pasándole los productos, el id y la cantidad
                         var cesta = new Cesta(this.#productosTienda, carrito);
                     });
                 }
             }
+            // -----------------------------------------------------------------------------
+
         }
 
         class Cesta {
@@ -186,111 +199,118 @@
 
 
             constructor(productos, producto) {
+                console.log("Entramos constructor cesta");
 
                 this.#productosCesta = productos;
+                this.#productosAñadidos = producto;
                 this.#idProductoSeleccionado = producto.id;
                 this.#cantidadProducto = producto.cantidad;
 
-                this.#buscarProductoSeleccionado();
+                this.#guardarProducto();
 
             }
 
-            #guardarProducto(producto) {
+            // -----------------------------------------------------------------------------
+            #guardarProducto() {
+                var producto = this.#productosAñadidos;
                 var productos = JSON.parse(localStorage.getItem('carrito')) || [];
 
-                var productoExistente = productos.find(p => p.id === producto.id);
+                const productoExistente = productos.find(p => p.id === producto.id);
 
                 if (productoExistente) {
-                    // Si el producto ya existe, actualizar la cantidad
-                    productoExistente.cantidad = producto.cantidad;
+                    console.log("Producto ya existente");
+                    productoExistente.cantidad += producto.cantidad;
                 } else {
-                    // Si el producto no existe, añadirlo a la lista
+                    console.log("Agregamos producto cuando está vacía la cesta");
                     productos.push(producto);
                 }
 
-                // Guardar la lista actualizada de productos en el localStorage
                 localStorage.setItem('carrito', JSON.stringify(productos));
 
-                this.#agregarAlCarrito();
-            }
+                console.log(productos);
+                this.#buscarProductoSeleccionado();
 
+            }
+            // -----------------------------------------------------------------------------
+
+            // -----------------------------------------------------------------------------
             #buscarProductoSeleccionado() {
-                for (let i = 0; i < this.#productosCesta.length; i++) {
-                    if (this.#productosCesta[i].id == this.#idProductoSeleccionado) {
-                        console.log("Id coincide con id producto");
-                        this.#productosAñadidos = this.#productosCesta[i];
-                    } else {
-                        console.log("Id no encontrado");
-                    }
+                var productos = JSON.parse(localStorage.getItem('carrito')) || [];
+
+                var productoEnCarrito = productos.find(p => p.id === this.#idProductoSeleccionado);
+
+                if (productoEnCarrito) {
+                    console.log("Producto encontrado en el carrito:", productoEnCarrito);
+                    this.#productosAñadidos = productoEnCarrito;
+                } else {
+                    console.log("Producto no encontrado en el carrito");
                 }
 
-                this.#guardarProducto();
+                this.agregarAlCarrito();
             }
+            // -----------------------------------------------------------------------------
 
-            #renderizarTabla() {
-
-            }
-
-
-            #agregarAlCarrito() {
-                var total = 0;
-                var subtotalProducto;
-
+            // -----------------------------------------------------------------------------
+            agregarAlCarrito() {
+                console.log("Entramos Método Agregar Al Carrito");
                 const tbody = document.getElementById("idDatosTabla");
 
-                let fila = document.createElement("tr");
+                for (var i = 0; i < this.#productosCesta.length; i++) {
+                    if (this.#productosCesta[i].id == this.#productosAñadidos.id) {
+                        var total = 0;
+                        var subtotalProducto;
 
-                let celdaCod = document.createElement("td");
-                let celdaNombre = document.createElement("td");
-                let celdaCantidad = document.createElement("td");
-                let celdaPrecio = document.createElement("td");
-                let celdaSubtotal = document.createElement("td");
-                let celdaEliminar = document.createElement("td");
-                let botonEliminar = document.createElement("a");
-                let textoEliminar = document.createElement("p");
+                        let fila = document.createElement("tr");
+                        let celdaCod = document.createElement("td");
+                        let celdaNombre = document.createElement("td");
+                        let celdaCantidad = document.createElement("td");
+                        let celdaPrecio = document.createElement("td");
+                        let celdaSubtotal = document.createElement("td");
+                        let celdaEliminar = document.createElement("td");
+                        let botonEliminar = document.createElement("a");
+                        let textoEliminar = document.createElement("p");
 
-                textoEliminar.className = "bi bi-eraser-fill";
-                botonEliminar.className = "btn btn-danger";
+                        textoEliminar.className = "bi bi-eraser-fill";
+                        botonEliminar.className = "btn btn-danger";
 
-                celdaCod.innerText = this.#productosAñadidos.id;
-                celdaNombre.innerText = this.#productosAñadidos.nombre;
-                celdaCantidad.innerText = this.#cantidadProducto;
-                celdaPrecio.innerText = this.#productosAñadidos.precio;
+                        celdaCod.innerText = this.#productosAñadidos.id;
+                        celdaNombre.innerText = this.#productosCesta[i].nombre;
+                        celdaCantidad.innerText = this.#productosAñadidos.cantidad;
+                        celdaPrecio.innerText = this.#productosCesta[i].precio;
 
-                // ----------------------------------------------------------------- //
-                // Variable declarada para guardar el valor subtotal de cada producto 
-                // para el cálculo posterior del total
-                subtotalProducto = this.#productosAñadidos.precio * this.#cantidadProducto;
-                console.log("Valor del subtotal " + subtotalProducto);
-                // ----------------------------------------------------------------- //
+                        // ----------------------------------------------------------------- //
+                        // Variable declarada para guardar el valor subtotal de cada producto 
+                        // para el cálculo posterior del total
+                        subtotalProducto = this.#productosCesta[i].precio * this.#productosAñadidos.cantidad;
+                        // ----------------------------------------------------------------- //
 
-                total += subtotalProducto;
+                        total += subtotalProducto;
 
-                celdaSubtotal.innerText = subtotalProducto
+                        celdaSubtotal.innerText = subtotalProducto
 
-                botonEliminar.appendChild(textoEliminar);
-                celdaEliminar.appendChild(botonEliminar);
+                        botonEliminar.appendChild(textoEliminar);
+                        celdaEliminar.appendChild(botonEliminar);
 
-                fila.appendChild(celdaCod);
-                fila.appendChild(celdaNombre);
-                fila.appendChild(celdaCantidad);
-                fila.appendChild(celdaPrecio);
-                fila.appendChild(celdaSubtotal);
-                fila.appendChild(celdaEliminar);
+                        fila.appendChild(celdaCod);
+                        fila.appendChild(celdaNombre);
+                        fila.appendChild(celdaCantidad);
+                        fila.appendChild(celdaPrecio);
+                        fila.appendChild(celdaSubtotal);
+                        fila.appendChild(celdaEliminar);
 
-                tbody.appendChild(fila);
+                        tbody.appendChild(fila);
 
-                let totalP = document.getElementById('idTotal');
-                let totalIVA = document.getElementById('idTotalIva');
+                        let totalP = document.getElementById('idTotal');
+                        let totalIVA = document.getElementById('idTotalIva');
 
-                totalP.innerText = total;
-                totalIVA.innerText = (total * 1.21);
-
+                        totalP.innerText = total;
+                        totalIVA.innerText = (total * 1.21);
+                    }
+                }
             }
+            // -----------------------------------------------------------------------------
+
         }
-
-
-
 
         var productosCesta = [
             { id: 1, nombre: "Mochila", precio: 30, img: "https://source.unsplash.com/random/500x500/?bag" },
@@ -317,9 +337,7 @@
         </h1>
         <hr>
 
-        <br>
-        <br>
-        <br>
+        <br><br><br>
 
         <div class="container text-center">
             <div class="row">
@@ -338,6 +356,7 @@
                                 <th scope="col">Cantidad</th>
                                 <th scope="col">Precio(€)</th>
                                 <th scope="col">Subtotal</th>
+                                <th scope="col">#</th>
                             </tr>
                         </thead>
                         <tbody id="idDatosTabla">

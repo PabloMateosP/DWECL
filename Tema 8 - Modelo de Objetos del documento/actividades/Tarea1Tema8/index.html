@@ -52,7 +52,7 @@
 
             }
 
-            #mostrarProductos() {
+            #mostrarProductos(event) {
 
                 console.log("Producto Tienda Añadidos a la cesta!!")
 
@@ -147,12 +147,11 @@
                     //-----------------------------------
 
                     var cantidad;
-                    var id;
 
                     // Interceptamos el dato introducido en el input 
                     inputCantidad.addEventListener("input", (event) => {
                         this.#productosTienda[i].cantidad = parseInt(event.target.value);
-                        cantidad = this.#productosTienda[i].cantidad;
+                        var cantidad = this.#productosTienda[i].cantidad;
                         localStorage.setItem("cantidad", cantidad);
                     });
 
@@ -165,11 +164,8 @@
                             localStorage.setItem("cantidad", 1);
                         }
 
-                        id = this.#productosTienda[i].id;
-                        localStorage.setItem("id", id);
-
                         // Creámos una nueva cesta mediante el constructor pasándole los productos, el id y la cantidad
-                        var cesta = new Cesta(this.#productosTienda, localStorage.getItem("id"), localStorage.getItem("cantidad"));
+                        var cesta = new Cesta(this.#productosTienda, this.#productosTienda[i].id, localStorage.getItem("cantidad"));
                     });
                 }
             }
@@ -179,7 +175,6 @@
             #productosCesta;
             #idProductoSeleccionado;
             #cantidadProducto;
-            
 
             constructor(productos, id, cantidad) {
 
@@ -191,13 +186,10 @@
 
             }
 
-            #renderizarCesta(){
-                
-            }
-
             #agregarAlCarrito() {
                 var total = 0;
                 var subtotalProducto;
+
 
                 const tbody = document.getElementById("idDatosTabla");
 
@@ -263,18 +255,15 @@
 
                 }
 
-                // let totalP = document.getElementById('idTotal');
-                // let totalIVA = document.getElementById('idTotalIva');
+                let totalP = document.getElementById('idTotal');
+                let totalIVA = document.getElementById('idTotalIva');
 
-                // totalP.innerText = total;
-                // totalIVA.innerText = (total * 1.21);
-
+                totalP.innerText = total;
+                totalIVA.innerText = (total * 1.21);
 
 
             }
         }
-
-
 
 
         var productosCesta = [
