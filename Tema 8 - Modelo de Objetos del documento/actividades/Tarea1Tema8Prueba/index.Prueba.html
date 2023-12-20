@@ -171,6 +171,7 @@
 
                     // Event Listener para lanzar construcción tabla tras pulsar añadir
                     buttonCard.addEventListener("click", () => {
+                        
                         // Creamos una cláusula para que si el input no tiene un valor definido, este 
                         // tome el valor como 1
                         if (cantidad == undefined) {
@@ -180,10 +181,11 @@
 
                         id = this.#productosTienda[i].id;
 
-                        carrito = { id: id, cantidad: cantidad };
+                        carrito = {id: id, cantidad: cantidad};
 
                         // Creámos una nueva cesta mediante el constructor pasándole los productos, el id y la cantidad
                         var cesta = new Cesta(this.#productosTienda, carrito);
+                        cesta.guardarProducto();
                     });
                 }
             }
@@ -205,13 +207,10 @@
                 this.#productosAñadidos = producto;
                 this.#idProductoSeleccionado = producto.id;
                 this.#cantidadProducto = producto.cantidad;
-
-                this.#guardarProducto();
-
             }
 
             // -----------------------------------------------------------------------------
-            #guardarProducto() {
+            guardarProducto() {
                 var producto = this.#productosAñadidos;
                 var productos = JSON.parse(localStorage.getItem('carrito')) || [];
 
@@ -223,9 +222,8 @@
                 } else {
                     console.log("Agregamos producto cuando está vacía la cesta");
                     productos.push(producto);
+                    localStorage.setItem('carrito', JSON.stringify(productos));
                 }
-
-                localStorage.setItem('carrito', JSON.stringify(productos));
 
                 console.log(productos);
                 this.#buscarProductoSeleccionado();
@@ -248,6 +246,29 @@
 
                 this.agregarAlCarrito();
             }
+            // -----------------------------------------------------------------------------
+
+            // -----------------------------------------------------------------------------
+            // calcularTotal() {
+            //     var productos = JSON.parse(localStorage.getItem('carrito')) || [];
+            //     var total = 0;
+
+            //     for (var i = 0; i < productos.length; i++) {
+            //         var productoEnCarrito = productos[i];
+
+            //         for (var i = 0; i < this.#productosCesta.length; i++) {
+            //             var productoEnTienda = this.#productosCesta.find(p => p.id === productoEnCarrito.id);
+                        
+            //             if (productoEnTienda.id == this.#productosCesta[i].id) {
+            //                 total += productoEnCarrito.cantidad * this.#productosCesta[i].precio;
+            //             }
+            //         }
+
+
+            //     }
+
+            //     return total;
+            // }
             // -----------------------------------------------------------------------------
 
             // -----------------------------------------------------------------------------
@@ -282,7 +303,7 @@
                         // Variable declarada para guardar el valor subtotal de cada producto 
                         // para el cálculo posterior del total
                         subtotalProducto = this.#productosCesta[i].precio * this.#productosAñadidos.cantidad;
-                        // ----------------------------------------------------------------- //
+                        // // ----------------------------------------------------------------- //
 
                         total += subtotalProducto;
 
@@ -302,6 +323,9 @@
 
                         let totalP = document.getElementById('idTotal');
                         let totalIVA = document.getElementById('idTotalIva');
+
+                        // totalP.innerText = this.calcularTotal();
+                        // totalIVA.innerText = (this.calcularTotal() * 1.21);
 
                         totalP.innerText = total;
                         totalIVA.innerText = (total * 1.21);
