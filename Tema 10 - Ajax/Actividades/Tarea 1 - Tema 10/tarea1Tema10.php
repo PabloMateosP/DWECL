@@ -99,10 +99,10 @@ $datosJSON = json_encode($datosArray);
         class Mostrar {
 
             constructor() {
-                this.pintarNombres();
+                pintarNombres();
             }
 
-            function pintarNombres() {
+            pintarNombres() {
             // Parsea los datos JSON a un objeto JavaScript
             var datos = JSON.parse('<?php echo $datosJSON; ?>');
 
@@ -120,6 +120,8 @@ $datosJSON = json_encode($datosArray);
                 select.appendChild(option);
             });
         }
+
+        
         // function funAjax() {
         // var xhttp = new XMLHttpRequest();
         // xhttp.onreadystatechange = function () {
