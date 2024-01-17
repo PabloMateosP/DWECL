@@ -30,11 +30,15 @@
     <script>
       class Mostrar {
         constructor() {
-          // this.pintarNombres();
+
           this.funAjax();
+
+          // Cuando la selección del select se cambie, llamaremos a la función 
+          // que nos imprimirá la tabla. 
           document.getElementById("datos").addEventListener("change", (e) => {
             this.funTabla(e.target.value);
           });
+
         }
 
         funAjax() {
@@ -130,7 +134,7 @@
           id="datos"
           class="form-select"
           aria-label="Default select example"
-        ></select>
+        ><option selected disabled>Seleccione una de las opciones</option></select>
         <hr>
         <table id="datosCliente"></table>
       </div>
