@@ -64,16 +64,19 @@
           xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
               var datos = JSON.parse(this.responseText);
+
+              //Elementos para usar bootstrap en la tabla 
               var tabla = document.createElement("table");
-              tabla.setAttribute("border", "1");
+              tabla.setAttribute("border", "1px");
               var thead = document.createElement("thead");
+              thead.style = "margin-bottom: 10px";
               tabla.appendChild(thead);
 
-              // var tr = tabla.insertRow();
               var tr1 = document.createElement("tr");
+              
               for (var key in datos[0]) {
                 var th = document.createElement("th");
-                th.setAttribute("scope", "col");
+                th.style = "padding-left: 10px; padding-right: 10px; border-bottom: 1px solid black; border-left: 1px solid black";
                 th.textContent = key;
                 tr1.appendChild(th);
               }
@@ -81,12 +84,18 @@
 
               var tbody = document.createElement("tbody");
               tabla.appendChild(tbody);
+
               for (var i = 0; i < datos.length; i++) {
-                var tr2 = tabla.insertRow();
+                var tr2 = document.createElement("tr");
+                tabla.appendChild(tr2);
+
                 for (var key in datos[i]) {
-                  var td = tr2.insertCell();
+                  var td = document.createElement("td");
+                  td.style= "padding-left: 10px; padding-right: 10px; border-left: 1px solid black";
+                  tr2.appendChild(td);
                   td.textContent = datos[i][key];
                 }
+
                 tbody.appendChild(tr2);
               }
 
