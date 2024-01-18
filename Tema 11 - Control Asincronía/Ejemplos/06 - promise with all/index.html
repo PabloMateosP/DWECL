@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+</head>
+
+<body>
+    <script>
+        function promesa(fase) {
+            // Devuelve un array con todas las ejecuciones después de 3 segundos
+            var promise = new Promise(function (resolve, reject) {
+                setTimeout(function () { resolve(`Etapa ${fase} completada`) }, 3000)
+            })
+            return promise;
+        }
+
+        const p1 = promesa(1);
+        const p2 = promesa(2);
+        const p3 = promesa(3);
+        const p4 = promesa(4);
+
+        // El promise all espera a que se resuelvan todas las promesas
+
+        Promise.all([p1, p2, p3, p4])
+            .then(mensaje => console.log(mensaje))
+            .catch(e => console.log(`Error capturado:  ${e}`));
+
+    </script>
+</body>
+
+</html>
