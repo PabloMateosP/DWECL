@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function saludar(nombre) {
+        alert("Hola " + nombre);
+      }
+      
+      // Debemos de poner callback como parámetro
+      function procesarEntradaUsuario(callback) {
+        var nombre = prompt("Por favor ingresa tu nombre.");
+        callback(nombre);
+      }
+
+      // Esto sería un callback ya que llamamos una función desde otra.
+      procesarEntradaUsuario(saludar);
+
+    </script>
+  </body>
+</html>
