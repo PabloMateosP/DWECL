@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // El método fetch está basado en promesas 
+        // Al ser una petición ajax debe pasar por localhost
+        fetch("carteras.json")
+            // Parseamos a objeto desde json 
+            .then(result => result.json())
+            // Como tenemos un array de objetos lo leemos 
+            .then(obJson => console.log(obJson[0].nombre + " || " +  obJson[1].nombre + " || " + obJson[2].nombre))
+            .catch(e => console.log(`Error capturado:  ${e}`));
+
+    </script>
+</body>
+
+</html>
