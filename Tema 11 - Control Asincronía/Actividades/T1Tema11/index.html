@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tarea 1 - Tema 10</title>
+
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #datosCliente {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+    <script>
+        class Mostrar {
+            constructor() {
+
+                this.funAjax();
+
+                // Cuando la selección del select se cambie, llamaremos a la función 
+                // que nos imprimirá la tabla. 
+                document.getElementById("datos").addEventListener("change", (e) => {
+                    this.funTabla(e.target.value);
+                });
+
+            }
+
+            funAjax() {
+                //   var xhttp = new XMLHttpRequest();
+                //   xhttp.onreadystatechange = function () {
+                //     if (this.readyState == 4 && this.status == 200) {
+                //       var datos = JSON.parse(this.responseText);
+                //       var select = document.getElementById("datos");
+
+                //       for (var i = 0; i < datos.length; i++) {
+                //         var option = document.createElement("option");
+                //         option.value = datos[i].id;
+                //         option.textContent = datos[i].nombre;
+                //         select.appendChild(option);
+                //       }
+                //     }
+                //   };
+
+                // Mandamos el id vacío en el inicio de nuestra aplicación
+                // para recoger los datos de los clientes
+                //   xhttp.open("GET", "datosJSON.php?id=", true);
+                //   xhttp.send();
+
+                // Cambiamos y hacemos mediante fetch
+                fetch("datosJSON.php?id=")
+                    .then(result => JSON.stringify(result))
+                    .then(function (obj) {
+                        var select = document.getElementById("datos");
+                        for (var i = 0; i < datos.length; i++) {
+                            var option = document.createElement("option");
+                            option.value = datos[i].id;
+                            option.textContent = datos[i].nombre;
+                            select.appendChild(option);
+                        }
+                    })
+                    .catch(e => console.log(`Error capturado:  ${e}`));
+
+            }
+
+            funTabla(id) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var datos = JSON.parse(this.responseText);
+
+                        //Elementos para usar bootstrap en la tabla 
+                        var tabla = document.createElement("table");
+                        tabla.setAttribute("border", "1px");
+                        var thead = document.createElement("thead");
+                        thead.style = "margin-bottom: 10px";
+                        tabla.appendChild(thead);
+
+                        var tr1 = document.createElement("tr");
+
+                        for (var key in datos[0]) {
+                            var th = document.createElement("th");
+                            th.style = "padding-left: 10px; padding-right: 10px; border-bottom: 1px solid black; border-left: 1px solid black";
+                            th.textContent = key;
+                            tr1.appendChild(th);
+                        }
+                        thead.appendChild(tr1);
+
+                        var tbody = document.createElement("tbody");
+                        tabla.appendChild(tbody);
+
+                        for (var i = 0; i < datos.length; i++) {
+                            var tr2 = document.createElement("tr");
+                            tabla.appendChild(tr2);
+
+                            for (var key in datos[i]) {
+                                var td = document.createElement("td");
+                                td.style = "padding-left: 10px; padding-right: 10px; border-left: 1px solid black";
+                                tr2.appendChild(td);
+                                td.textContent = datos[i][key];
+                            }
+
+                            tbody.appendChild(tr2);
+                        }
+
+                        var contenedorTabla = document.getElementById("datosCliente");
+                        contenedorTabla.innerText = "";
+                        contenedorTabla.appendChild(tabla);
+                    }
+                };
+
+                // Mandamos el id recibido para recoger los datos específicos
+                xhttp.open("GET", "datosJSON.php?id=" + id, true);
+                xhttp.send();
+            }
+        }
+
+        window.onload = function () {
+            new Mostrar();
+        };
+    </script>
+</head>
+
+<body>
+    <div class="card border-dark mb3" style="max-width: 30rem; display: block; align-items: center">
+        <div class="card-header">
+            <h1>TAREA 1 - TEMA 10.</h1>
+        </div>
+        <div class="card-body">
+            <select id="datos" class="form-select" aria-label="Default select example">
+                <option selected disabled>Seleccione una de las opciones</option>
+            </select>
+            <hr>
+            <table id="datosCliente"></table>
+        </div>
+    </div>
+</body>
+
+</html>
