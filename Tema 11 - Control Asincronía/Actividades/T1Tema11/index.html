@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tarea 1 - Tema 10</title>
+    <title>Tarea 1 - Tema 11</title>
 
     <style>
         body {
@@ -60,39 +60,91 @@
                 //   xhttp.open("GET", "datosJSON.php?id=", true);
                 //   xhttp.send();
 
-                // Cambiamos y hacemos mediante fetch
+                // ---------------------------------------------------------
+                // Cambiamos y hacemos mediante fetch y promises
                 fetch("datosJSON.php?id=")
-                    .then(result => JSON.stringify(result))
+                    .then(result => result.json())
                     .then(function (obj) {
                         var select = document.getElementById("datos");
-                        for (var i = 0; i < datos.length; i++) {
+
+                        for (var i = 0; i < obj.length; i++) {
                             var option = document.createElement("option");
-                            option.value = datos[i].id;
-                            option.textContent = datos[i].nombre;
+                            option.value = obj[i].id;
+                            option.textContent = obj[i].nombre;
                             select.appendChild(option);
                         }
                     })
                     .catch(e => console.log(`Error capturado:  ${e}`));
-
+                // ----------------------------------------------------------
             }
 
             funTabla(id) {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var datos = JSON.parse(this.responseText);
+                // var xhttp = new XMLHttpRequest();
+                // xhttp.onreadystatechange = function () {
+                //     if (this.readyState == 4 && this.status == 200) {
+                //         var datos = JSON.parse(this.responseText);
 
-                        //Elementos para usar bootstrap en la tabla 
+                //         //Elementos para usar bootstrap en la tabla 
+                //         var tabla = document.createElement("table");
+                //         tabla.setAttribute("border", "1px");
+                //         var thead = document.createElement("thead");
+                //         thead.style = "margin-bottom: 10px";
+                //         tabla.appendChild(thead);
+
+                //         var tr1 = document.createElement("tr");
+
+                //         for (var key in datos[0]) {
+                //             var th = document.createElement("th");
+                //             th.style = "padding-left: 10px; padding-right: 10px; border-bottom: 1px solid black; border-left: 1px solid black";
+                //             th.textContent = key;
+                //             tr1.appendChild(th);
+                //         }
+                //         thead.appendChild(tr1);
+
+                //         var tbody = document.createElement("tbody");
+                //         tabla.appendChild(tbody);
+
+                //         for (var i = 0; i < datos.length; i++) {
+                //             var tr2 = document.createElement("tr");
+                //             tabla.appendChild(tr2);
+
+                //             for (var key in datos[i]) {
+                //                 var td = document.createElement("td");
+                //                 td.style = "padding-left: 10px; padding-right: 10px; border-left: 1px solid black";
+                //                 tr2.appendChild(td);
+                //                 td.textContent = datos[i][key];
+                //             }
+
+                //             tbody.appendChild(tr2);
+                //         }
+
+                //         var contenedorTabla = document.getElementById("datosCliente");
+                //         contenedorTabla.innerText = "";
+                //         contenedorTabla.appendChild(tabla);
+                //     }
+                // };
+
+                // // Mandamos el id recibido para recoger los datos específicos
+                // xhttp.open("GET", "datosJSON.php?id=" + id, true);
+                // xhttp.send();
+
+                // Hacemos mediante fetch 
+                fetch("datosJSON.php?id=" + id)
+                    .then(result => result.json())
+                    .then(function (obj) {
+                        //Elementos para usar bootstrap en la tabla pero no llega a funcionar
                         var tabla = document.createElement("table");
                         tabla.setAttribute("border", "1px");
+                        //Elementos para usar bootstrap en la tabla
                         var thead = document.createElement("thead");
                         thead.style = "margin-bottom: 10px";
                         tabla.appendChild(thead);
 
                         var tr1 = document.createElement("tr");
 
-                        for (var key in datos[0]) {
+                        for (var key in obj[0]) {
                             var th = document.createElement("th");
+                            // Le doy estilo a la tabla 
                             th.style = "padding-left: 10px; padding-right: 10px; border-bottom: 1px solid black; border-left: 1px solid black";
                             th.textContent = key;
                             tr1.appendChild(th);
@@ -102,15 +154,16 @@
                         var tbody = document.createElement("tbody");
                         tabla.appendChild(tbody);
 
-                        for (var i = 0; i < datos.length; i++) {
+                        for (var i = 0; i < obj.length; i++) {
                             var tr2 = document.createElement("tr");
                             tabla.appendChild(tr2);
 
-                            for (var key in datos[i]) {
+                            for (var key in obj[i]) {
                                 var td = document.createElement("td");
+                                // Damos estilo a los recuadros de la tabla 
                                 td.style = "padding-left: 10px; padding-right: 10px; border-left: 1px solid black";
                                 tr2.appendChild(td);
-                                td.textContent = datos[i][key];
+                                td.textContent = obj[i][key];
                             }
 
                             tbody.appendChild(tr2);
@@ -119,12 +172,10 @@
                         var contenedorTabla = document.getElementById("datosCliente");
                         contenedorTabla.innerText = "";
                         contenedorTabla.appendChild(tabla);
-                    }
-                };
 
-                // Mandamos el id recibido para recoger los datos específicos
-                xhttp.open("GET", "datosJSON.php?id=" + id, true);
-                xhttp.send();
+                    })
+                    .catch(e => console.log(`Error capturado:  ${e}`));
+
             }
         }
 
