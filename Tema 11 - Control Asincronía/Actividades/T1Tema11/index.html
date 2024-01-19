@@ -62,20 +62,22 @@
 
                 // ---------------------------------------------------------
                 // Cambiamos y hacemos mediante fetch y promises
-                fetch("datosJSON.php?id=")
-                    .then(result => result.json())
-                    .then(function (obj) {
-                        var select = document.getElementById("datos");
+                // fetch("datosJSON.php?id=")
+                //     .then(result => result.json())
+                //     .then(function (obj) {
+                //         var select = document.getElementById("datos");
 
-                        for (var i = 0; i < obj.length; i++) {
-                            var option = document.createElement("option");
-                            option.value = obj[i].id;
-                            option.textContent = obj[i].nombre;
-                            select.appendChild(option);
-                        }
-                    })
-                    .catch(e => console.log(`Error capturado:  ${e}`));
+                //         for (var i = 0; i < obj.length; i++) {
+                //             var option = document.createElement("option");
+                //             option.value = obj[i].id;
+                //             option.textContent = obj[i].nombre;
+                //             select.appendChild(option);
+                //         }
+                //     })
+                //     .catch(e => console.log(`Error capturado:  ${e}`));
                 // ----------------------------------------------------------
+                // Cambiamos y hacemos mediante async / await 
+                
             }
 
             funTabla(id) {
