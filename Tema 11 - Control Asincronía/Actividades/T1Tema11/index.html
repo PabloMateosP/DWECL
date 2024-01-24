@@ -84,21 +84,20 @@
                     // En este caso no me funciona ya que recibe el siguiente error: 
                     // "Unexpected token '<', "<br /><b>"... is not valid JSON"
                     // el cual no sé como arreglar 
-                    let result = await fetch("datosJSON.php?id=");
-                    // Código 200
-                    if (result.ok) {
-                        let datos = await result.json();
-                        let select = document.getElementById("datos");
 
-                        for (let i = 0; i < datos.length; i++) {
-                            let option = document.createElement("option");
-                            option.value = datos[i].id;
-                            option.textContent = datos[i].nombre;
-                            select.appendChild(option);
-                        }
-                    } else {
-                        console.log("HTTP-Error: " + result.status);
+                    // El error anterior me daba en mi casa, mientras que en el ordenador de clase no
+                    let result = await fetch("datosJSON.php?id=");
+
+                    let datos = await result.json();
+                    let select = document.getElementById("datos");
+
+                    for (let i = 0; i < datos.length; i++) {
+                        let option = document.createElement("option");
+                        option.value = datos[i].id;
+                        option.textContent = datos[i].nombre;
+                        select.appendChild(option);
                     }
+
                 } catch (error) {
                     console.log(error);
                 }
@@ -253,7 +252,7 @@
 
                     contenedorTabla.appendChild(tabla);
 
-                // Capturamos posibles errores
+                    // Capturamos posibles errores
                 } catch (error) {
                     console.error("Error en la función funTabla:", error.message);
                 }
