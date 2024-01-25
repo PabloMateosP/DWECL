@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tarea 1 - Tema 10</title>
+
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #datosCliente {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        class Mostrar {
+            constructor() {
+
+                this.funAjax();
+
+                // Cambiamos el getElementById por el .on de JQuery 
+                var idDatos = $("#datos");
+                idDatos.on("change", (e) => {
+                    console.log("Entramos en Event Listener Select");
+                    this.funTabla(e.target.value);
+                });
+
+
+            }
+
+            funAjax() {
+                $.get("datosJSON.php?id=",
+                    function (obj) {
+                        obj = JSON.parse(obj);
+
+                        for (var i = 0; i < obj.length; i++) {
+                            $('#datos').append(`<option value= ${obj[i].id} >  ${obj[i].nombre} </option>`);
+                        }
+                    }
+                );
+            }
+
+            funTabla(id) {
+                console.log("Entramos en la función para construir la tabla");
+                console.log("Id: " + id);
+                // Usamos la función .get de JQuery aunque también podemos usar la función .ajax
+                $.get("datosJSON.php?id=" + id, function (obj) {
+                    // Recogemos los datos 
+                    var datos = JSON.parse(obj);
+
+                    // Creamos el elemento tabla del html
+                    var tabla = $("<table>").attr("border", "1px");
+                    // Creamos el elemento thead de la tabla html
+                    var thead = $("<thead>").css("margin-bottom", "10px");
+                    tabla.append(thead);
+
+                    var tr1 = $("<tr>");
+                    for (var key in datos[0]) {
+                        var th = $("<th>").css({ "padding-left": "10px", "padding-right": "10px", "border-bottom": "1px solid black", "border-left": "1px solid black" }).text(key);
+                        tr1.append(th);
+                    }
+                    thead.append(tr1);
+
+                    var tbody = $("<tbody>");
+                    tabla.append(tbody);
+
+                    for (var i = 0; i < datos.length; i++) {
+                        var tr2 = $("<tr>");
+                        tabla.append(tr2);
+
+                        for (var key in datos[i]) {
+                            var td = $("<td>").css({ "padding-left": "10px", "padding-right": "10px", "border-left": "1px solid black" }).text(datos[i][key]);
+                            tr2.append(td);
+                        }
+
+                        tbody.append(tr2);
+                    }
+
+                    $("#datosCliente").text("");
+                    $("#datosCliente").append(tabla);
+                });
+
+            }
+        }
+
+        // Equivalente a window.onload mediante jQuery
+        $(function () {
+            new Mostrar();
+        });
+
+    </script>
+</head>
+
+<body>
+    <div class="card border-dark mb3" style="max-width: 30rem; display: block; align-items: center">
+        <div class="card-header">
+            <h1>TAREA 1 - TEMA 10.</h1>
+        </div>
+        <div class="card-body">
+            <select id="datos" class="form-select" aria-label="Default select example">
+                <option selected disabled>Seleccione una de las opciones</option>
+            </select>
+            <hr>
+            <table id="datosCliente"></table>
+        </div>
+    </div>
+</body>
+
+</html>
