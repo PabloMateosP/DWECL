@@ -27,7 +27,7 @@
                     .then(res => res.json())
                     .then(function (obj) {
                         document.getElementById("datos").innerHTML =
-                            `El coche es un ${obj.marca} ${obj.modelo}`
+                            `<h1>El coche es un ${obj.marca} ${obj.modelo}<h1>`
                     })
                     .catch(error => console.error('Error:', error))
 
@@ -42,9 +42,10 @@
                     },
                     function(obj){
                         obj=JSON.parse(obj);
-                        $("#datos").html(`El coche es un ${obj.marca} ${obj.modelo}`)
+                        $("#datos").html(`<h1>El coche es un ${obj.marca} ${obj.modelo}</h1>`)
                     }
                 );
+                
                 //----------------------------------------------------------------------
 
             }
