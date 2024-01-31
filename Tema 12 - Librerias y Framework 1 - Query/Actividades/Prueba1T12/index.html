@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <title>Prueba Tema 12</title>
+
+    <script>
+        class Tabla {
+
+            constructor() {
+                this.funCargarJson();
+            }
+
+            funMostrarTabla(datosJson) {
+                for (var i = 0; i < datosJson.length; i++) {
+                    var tr = $("<tr>");
+
+                    var td = $("<td>");
+                    td.text(datosJson[i].id); 
+
+                    tr.append(td);
+                    $("#tablaDatos").append(tr);
+                }
+            }
+
+            funCargarJson() {
+                $.getJSON("carteras.json",
+                    function (obj) {
+                        var data = obj;
+                        console.log(data);
+                        this.funMostrarTabla(data); 
+                    }.bind(this) 
+                );
+            }
+
+        }
+
+        $(function () {
+            new Tabla();
+        });
+    </script>
+
+</head>
+
+<body>
+    <table>
+
+        <thead>
+            <th>ID</th>
+            <th>COMPONENTES</th>
+            <th>PRECIO</th>
+        </thead>
+        <tbody id="tablaDatos">
+
+        </tbody>
+
+    </table>
+</body>
+
+</html>
