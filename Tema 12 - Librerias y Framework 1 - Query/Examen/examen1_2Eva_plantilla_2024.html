@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            function funAjax(e) {
+                e.preventDefault(); // Para no abandonar la página al enviar formulario.
+
+                //--------- Con Promesas--------------------------------------------------------
+
+                // Capturamos el valor introducido mediante los input
+                let equipo1 = document.getElementById("equipo1").value;
+                let equipo2 = document.getElementById("equipo2").value;
+
+                fetch('examen1_2eva_2024.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `equipo1=${equipo1}&equipo2=${equipo2}`,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        let tablaHTML = "";
+
+                        for (let i = 0; i < data.equipo1.length; i++) {
+                            // Datos introducidos al html
+                            tablaHTML += `<tr><tr><td>${data.equipo1[i]}</td><td>${data.equipo2[i]}</td></tr></tr>`;
+                        } 
+
+                        // Introducimos los datos al html
+                        let datos = document.getElementById('datos');
+                        datos.innerHTML = tablaHTML;
+                    })
+                    .catch(error => console.error('Error:', error));
+
+                //-------------------------------------------------------------------------------
+
+                // // -------Con jQuery----------------------------------------------------------
+
+                // Capturamos el valor introducido mediante los input
+                // let equipo1b = $('#equipo1').val();
+                // let equipo2b = $('#equipo2').val();
+
+                // $.ajax({
+                //     type: 'POST',
+                //     url: 'examen1_2eva_2024.php',
+                //     data: { equipo1: equipo1b, equipo2: equipo2b },
+                //     dataType: 'json',
+                //     success: function (data) {
+
+                //         for (let i = 0; i < data.equipo1.length; i++) {
+                //             $('#datos').append(`<tr><tr><td>${data.equipo1[i]}</td><td>${data.equipo2[i]}</td></tr></tr>`)
+                //         }
+
+                //     },
+                //     error: function (error) {
+                //         console.error('Error:', error);
+                //     }
+                // });
+
+
+                // //----------------------------------------------------------------------------
+
+            }
+            $('form').submit(funAjax);
+        })
+    </script>
+</head>
+
+<body>
+    <form>
+        <label>ID_Equipo1:</label><input type="number" min=1 id="equipo1" required="required">
+        <label>ID_Equipo2:</label><input type="number" min=1 id="equipo2" required="required">
+        <button type="submit">Enviar</button>
+    </form>
+    <br />
+
+    <table>
+        <thead>
+            <tr>
+                <th>Equipo1</th>
+                <th>Equipo2</th>
+            </tr>
+        </thead>
+        <tbody id="datos">
+        </tbody>
+    </table>
+
+</body>
+
+</html>
