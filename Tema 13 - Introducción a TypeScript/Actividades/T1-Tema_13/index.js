@@ -1,5 +1,4 @@
 "use strict";
-// class Boton {
 class Boton {
     constructor(id) {
         let btn = $(`<button id="${id}">${id}</button>`);
