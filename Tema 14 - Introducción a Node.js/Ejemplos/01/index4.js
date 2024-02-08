@@ -7,4 +7,20 @@ createServer(function (req, res) {
         res.write(data);
         res.end();
     });
+
+    fs.writeFile('prueba1.txt', 'Contenido....', function (err) {
+        if (err) throw err;
+        console.log('Creado!');
+    });
+
+    fs.appendFile('prueba1.txt', '\n más contenido....', function (err) {
+        if (err) throw err;
+        console.log('Añadido!');
+    });
+    
+    fs.unlink('prueba1.txt', function (err) {
+        if (err) throw err;
+        console.log('Archivo borrado!');
+    })
+    
 }).listen(8080)
