@@ -1,0 +1,1 @@
+Para ejecutarlo debemos de abrir mediante localhost:3000 habiendo hecho anteriormente nodemon index.js (nodemon es un paquete que se debe instalar  con npm install -g nodemon)
