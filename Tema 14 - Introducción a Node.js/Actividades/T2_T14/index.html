@@ -1,14 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+            function funAjax(e) {
+                e.preventDefault();
+
+                $.get("/submitAjax",
+                    {
+                        nombre: $("#nombre").val(),
+                        apellidos: $("#apellidos").val()
+                    },
+                    function (obj) {
+                        console.log("Submit");
+                        construirtabla();
+                    }
+                );
+            }
+
+            function construirtabla() {
+                $.get("/getData", function (obj) {
+                    console.log("Construir Tabla");
+                    $('#datos').empty();
+                    $('#datos').append("<table><tr><th>Nombre</th><th>Apellidos</th></tr>");
+
+                    for (let i = 0; i < obj.length; i++) {
+                        $('#datos').append(`<tr><td>${obj[i].nombre}</td><td>${obj[i].apellidos}</td></tr>`);
+                    }
+                });
+            }
+
+            construirtabla();
+
+            $('form').submit(funAjax);
+        })
+    </script>
+
+    <script src="server.js"></script>
+
 </head>
+
 <body>
     <h1>Listado de Personas</h1>
-    <input></input>
-    <input></input>
+    <form action="/submitAjax" method="post">
+        <label>nombre:</label><input type="text" id="nombre" required="required">
+        <label>apellidos:</label><input type="text" id="apellidos" required="required">
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="datos"> </div>
+
 </body>
+
 </html>
