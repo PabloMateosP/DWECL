@@ -6,23 +6,20 @@ const app = express();
 const router = express.Router();
 const __dirname = path.resolve();
 
-
 router.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+    res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-router.get('/getData', async function (req, res) {
-    const documents = await run();
-    res.json(documents);
-});
-
-router.post('/submit', async function (req, res) {
+router.post('/datos', async function (req, res) {
     const registro = {
         nombre: req.body.nombre,
         apellidos: req.body.apellidos
+        //(Tengo fallos en este apartado)
     };
 
-    await run(registro);
+    const result = await run(registro);
+    res.json(result);
+
 });
 
 async function run(registro) {
@@ -34,17 +31,31 @@ async function run(registro) {
         const database = client.db('test');
         const collec = database.collection('persona');
 
-        if (registro.nombre != "") {
-            await collec.insertOne(registro);
+        if (registro.nombre !== "") {
+            try {
+                const result = await collec.insertOne(registro);
+
+                const lectura = await collec.find().toArray();
+                console.log(lectura)
+
+                return lectura;
+            } catch (error) {
+                console.error(error);
+            }
         } else {
-            
+            const lectura = await collec.find().toArray();
+            return lectura;
         }
-        
+
+    } catch (error) {
+        console.error(error);
     } finally {
         await client.close();
+        console.log("Funciona correctamente");
     }
 }
 
 app.use('/', router);
-app.listen(3000);
-console.log('Listening on port 3000');
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+});

@@ -9,51 +9,47 @@
 
     <script>
         $(function () {
-            function funAjax(e) {
-                e.preventDefault();
-
-                $.get("/submitAjax",
-                    {
-                        nombre: $("#nombre").val(),
-                        apellidos: $("#apellidos").val()
-                    },
-                    function (obj) {
-                        console.log("Submit");
-                        construirtabla();
+            $("#bot").on('click', function (event) {
+                event.preventDefault();
+                let url = "/datos";
+                let objeto = {
+                    nombre: $("#nombre").val(),
+                    apellidos: $("#apellidos").val()
+                }
+                fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify(objeto),
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-                );
-            }
-
-            function construirtabla() {
-                $.get("/getData", function (obj) {
-                    console.log("Construir Tabla");
-                    $('#datos').empty();
-                    $('#datos').append("<table><tr><th>Nombre</th><th>Apellidos</th></tr>");
-
-                    for (let i = 0; i < obj.length; i++) {
-                        $('#datos').append(`<tr><td>${obj[i].nombre}</td><td>${obj[i].apellidos}</td></tr>`);
-                    }
-                });
-            }
-
-            construirtabla();
-
-            $('form').submit(funAjax);
-        })
+                })
+                    .then(res => res.json())
+                    .then(obj => {
+                        $("#datos").show();
+                        $("#datos").empty();
+                        obj.forEach(persona => {
+                            $("#datos").append(`<tr><td>${persona.nombre}</td><td>${persona.apellidos}</td></tr>`);
+                        });
+                    })
+                    .catch(error => {
+                        // Handle any errors that occur during the fetch
+                        console.error('Error:', error);
+                    });
+            });
+        });
     </script>
-
-    <script src="server.js"></script>
-
 </head>
 
 <body>
     <h1>Listado de Personas</h1>
-    <form action="/submitAjax" method="post">
-        <label>nombre:</label><input type="text" id="nombre" required="required">
-        <label>apellidos:</label><input type="text" id="apellidos" required="required">
-        <button type="submit">Enviar</button>
+    <form action="" method="post">
+        <label>nombre:</label>
+        <input type="text" id="nombre" name="nombre" required="required">
+        <label>apellidos:</label>
+        <input type="text" id="apellidos" name="apellidos" required="required">
+        <button type="submit" id="bot">Enviar</button>
     </form>
-    <div id="datos"> </div>
+    <table id="datos"> </table>
 
 </body>
 
