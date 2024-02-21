@@ -15,7 +15,6 @@ router.post('/datos', async function (req, res) {
     const registro = {
         nombre: req.body.nombre,
         apellidos: req.body.apellidos
-        // (Tengo fallos en este apartado)
     };
 
     const result = await run(registro);
