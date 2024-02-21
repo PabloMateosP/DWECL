@@ -23,7 +23,7 @@ router.post('/datos', async function (req, res) {
 });
 
 async function run(registro) {
-    const uri = "mongodb+srv://pmatpal0105:pablo@clusterges.hdpy8ep.mongodb.net/?retryWrites=true&w=majority";
+    const uri = "mongodb+srv://****************@clusterges.hdpy8ep.mongodb.net/?retryWrites=true&w=majority";
     const client = new MongoClient(uri);
 
     try {
