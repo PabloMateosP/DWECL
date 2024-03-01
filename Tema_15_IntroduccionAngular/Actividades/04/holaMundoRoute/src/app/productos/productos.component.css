@@ -1,9 +1,7 @@
-#id__mat-list {
-    background-color: grey;
-    
+#id_mat-card {
+    background-color: blueviolet;
 }
 
-#id__mat-list-item {
-    margin-top: 10px;
-    height: auto;
+#id_mat-card_img {
+    height: 300px;
 }

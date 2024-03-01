@@ -20,6 +20,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 
 import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
+
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import {MatCardModule} from '@angular/material/card';
     MatButtonModule,
     MatListModule,
     MatDividerModule,
-    MatCardModule
+    MatCardModule,
+    MatGridListModule,
+    MatInputModule
   ],
   providers: [
     provideClientHydration(),
