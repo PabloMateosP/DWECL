@@ -13,11 +13,8 @@ import { ProductosComponent } from './productos/productos.component';
 import { ContactoComponent } from './contacto/contacto.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
-import { ChildAComponent } from './child-a/child-a.component';
-import { ChildBComponent } from './child-b/child-b.component';
-
-import {MatDividerModule} from '@angular/material/divider';
-import {MatListModule} from '@angular/material/list';
+// import { ChildAComponent } from './child-a/child-a.component';
+// import { ChildBComponent } from './child-b/child-b.component';
 
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
@@ -32,16 +29,12 @@ import { MatInputModule } from '@angular/material/input';
     ProductosComponent,
     ContactoComponent,
     PagenotfoundComponent,
-    ChildAComponent,
-    ChildBComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatToolbarModule,
     MatButtonModule,
-    MatListModule,
-    MatDividerModule,
     MatCardModule,
     MatGridListModule,
     MatInputModule
